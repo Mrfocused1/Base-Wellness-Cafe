@@ -89,37 +89,38 @@
 <nav class="sticky top-0 z-50 bg-[#F5EFE6]/95 backdrop-blur border-b border-gray-200">
   <div class="relative max-w-7xl mx-auto px-6 py-4 flex items-center">
 
-    <!-- LEFT GROUP: desktop nav links | mobile bag icon -->
-    <div class="flex-1 flex items-center gap-8">
-      <!-- Desktop links (hidden on mobile) -->
-      <div class="hidden md:flex items-center gap-8">
-        <a href="index.html"   class="font-display text-lg tracking-wider hover:text-[#2D6A4F] transition-colors">HOME</a>
-        <a href="about.html"   class="font-display text-lg tracking-wider hover:text-[#2D6A4F] transition-colors">ABOUT US</a>
-        <a href="contact.html" class="font-display text-lg tracking-wider text-[#2D6A4F]">CONTACT</a>
-      </div>
-      <!-- Mobile: bag icon only -->
+    <!-- LEFT: desktop logo | mobile bag icon -->
+    <div class="flex-1 flex items-center">
+      <a href="index.html" class="hidden md:flex select-none">
+        <img src="logo.svg" alt="Base Wellness Cafe" class="h-10 w-auto" style="filter: brightness(0) saturate(100%) invert(28%) sepia(50%) saturate(500%) hue-rotate(110deg) brightness(80%);" />
+      </a>
       <button onclick="openCartSheet()" class="md:hidden relative text-[#1A1A1A] hover:text-[#2D6A4F] transition-colors" aria-label="Shopping bag">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 9H4l1-9z"/></svg>
         <span class="cart-badge absolute -top-2 -right-2 bg-[#2D6A4F] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center hidden font-bold">0</span>
       </button>
     </div>
 
-    <!-- CENTER: LOGO — absolute center on mobile, static on desktop -->
-    <a href="index.html" class="select-none absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
-      <img src="logo.svg" alt="Base Wellness Cafe" class="h-10 w-auto"
-           style="filter: brightness(0) saturate(100%) invert(28%) sepia(50%) saturate(500%) hue-rotate(110deg) brightness(80%);" />
+    <!-- CENTER: desktop nav links -->
+    <div class="hidden md:flex justify-center items-center gap-8">
+      <a href="index.html"   class="font-display text-lg tracking-wider hover:text-[#2D6A4F] transition-colors">HOME</a>
+      <a href="menu.html"    class="font-display text-lg tracking-wider hover:text-[#2D6A4F] transition-colors">MENU</a>
+      <a href="about.html"   class="font-display text-lg tracking-wider hover:text-[#2D6A4F] transition-colors">ABOUT US</a>
+      <a href="contact.html" class="font-display text-lg tracking-wider text-[#2D6A4F]">CONTACT</a>
+    </div>
+
+    <!-- Mobile logo: absolute centered -->
+    <a href="index.html" class="md:hidden absolute left-1/2 -translate-x-1/2 select-none">
+      <img src="logo.svg" alt="Base Wellness Cafe" class="h-10 w-auto" style="filter: brightness(0) saturate(100%) invert(28%) sepia(50%) saturate(500%) hue-rotate(110deg) brightness(80%);" />
     </a>
 
-    <!-- RIGHT GROUP: desktop MENU+bag+ORDER NOW | mobile burger -->
-    <div class="flex-1 flex justify-end items-center gap-3 md:gap-8">
-      <!-- Desktop only: MENU link, bag icon, ORDER NOW -->
-      <a href="menu.html" class="hidden md:block font-display text-lg tracking-wider hover:text-[#2D6A4F] transition-colors">MENU</a>
-      <button onclick="openCartSheet()" class="hidden md:block relative text-[#1A1A1A] hover:text-[#2D6A4F] transition-colors" aria-label="Shopping bag">
+    <!-- RIGHT: desktop bag+ORDER NOW | mobile burger -->
+    <div class="flex-1 flex justify-end items-center gap-3 md:gap-4">
+      <button onclick="openCartSheet()" class="hidden md:flex relative text-[#1A1A1A] hover:text-[#2D6A4F] transition-colors" aria-label="Shopping bag">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 9H4l1-9z"/></svg>
         <span class="cart-badge absolute -top-2 -right-2 bg-[#2D6A4F] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center hidden font-bold">0</span>
       </button>
       <a href="menu.html" class="hidden md:block btn-pill bg-[#2D6A4F] text-white text-sm md:text-base px-3 md:px-5 py-1.5 md:py-2">ORDER NOW</a>
-      <!-- Mobile only: burger button -->
+      <!-- Mobile burger -->
       <button id="burger" class="md:hidden flex flex-col justify-center gap-[5px] w-8 flex-shrink-0" aria-label="Open menu">
         <span class="burger-bar block h-[2px] bg-[#1A1A1A] rounded transition-all duration-300"></span>
         <span class="burger-bar block h-[2px] bg-[#1A1A1A] rounded transition-all duration-300"></span>
