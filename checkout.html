@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout — Base Wellness Cafe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: #F5EFE6;
+      font-family: 'Inter', sans-serif;
+      color: #1A1A1A;
+      min-height: 100vh;
+    }
+
+    .font-display { font-family: 'Bebas Neue', cursive; }
+
+    .btn-pill {
+      display: inline-block;
+      font-family: 'Bebas Neue', cursive;
+      letter-spacing: 0.1em;
+      border-radius: 6px;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+      cursor: pointer;
+    }
+    .btn-pill:hover { transform: scale(1.03); opacity: 0.92; }
+
+    .product-img { mix-blend-mode: multiply; }
+
+    /* Form fields */
+    .form-field {
+      width: 100%;
+      background: #fff;
+      border: 2px solid #d1d5db;
+      border-radius: 8px;
+      padding: 13px 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      color: #1A1A1A;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .form-field::placeholder { color: #aaa; }
+    .form-field:focus {
+      border-color: #2D6A4F;
+      box-shadow: 0 0 0 3px rgba(45,106,79,0.12);
+    }
+    .form-field.error {
+      border-color: #ef4444;
+    }
+
+    textarea.form-field { resize: vertical; min-height: 100px; }
+
+    /* Order type toggle */
+    .order-type-btn {
+      flex: 1;
+      padding: 14px 20px;
+      font-family: 'Bebas Neue', cursive;
+      font-size: 1.1rem;
+      letter-spacing: 0.1em;
+      border: 2px solid #1A1A1A;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: white;
+      color: #1A1A1A;
+    }
+    .order-type-btn:first-child { border-radius: 6px 0 0 6px; }
+    .order-type-btn:last-child  { border-radius: 0 6px 6px 0; border-left: none; }
+    .order-type-btn.active {
+      background: #1A1A1A;
+      color: white;
+    }
+
+    /* Progress bar */
+    .step-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Bebas Neue', cursive;
+      font-size: 14px;
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+    }
+    .step-circle.active   { background: #2D6A4F; color: white; }
+    .step-circle.done     { background: #2D6A4F; color: white; }
+    .step-circle.inactive { background: #e5e7eb; color: #9ca3af; }
+
+    .step-line {
+      flex: 1;
+      height: 2px;
+      background: #e5e7eb;
+      transition: background 0.3s ease;
+    }
+    .step-line.done { background: #2D6A4F; }
+
+    /* Step panels */
+    .step-panel { display: none; }
+    .step-panel.active { display: block; }
+
+    /* Confirmation checkmark animation */
+    @keyframes circle-draw {
+      from { stroke-dashoffset: 282; }
+      to   { stroke-dashoffset: 0; }
+    }
+    @keyframes check-draw {
+      from { stroke-dashoffset: 60; }
+      to   { stroke-dashoffset: 0; }
+    }
+    .confirm-circle {
+      stroke-dasharray: 282;
+      stroke-dashoffset: 282;
+      animation: circle-draw 0.6s ease forwards 0.2s;
+    }
+    .confirm-check {
+      stroke-dasharray: 60;
+      stroke-dashoffset: 60;
+      animation: check-draw 0.4s ease forwards 0.9s;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     MINIMAL NAVBAR
+═══════════════════════════════════════ -->
+<nav class="sticky top-0 z-50 bg-[#F5EFE6]/95 backdrop-blur border-b border-gray-200">
+  <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+
+    <a href="cart.html" class="font-display text-lg tracking-wider hover:text-[#2D6A4F] transition-colors text-sm md:text-base">← BACK TO BAG</a>
+
+    <a href="index.html" class="select-none">
+      <img src="logo.svg" alt="Base Wellness Cafe" class="h-10 w-auto" style="filter: brightness(0) saturate(100%) invert(28%) sepia(50%) saturate(500%) hue-rotate(110deg) brightness(80%);" />
+    </a>
+
+    <div class="flex items-center gap-1 text-sm text-gray-600">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#2D6A4F]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+      </svg>
+      <span class="font-semibold text-[#2D6A4F]">Secure</span>
+    </div>
+
+  </div>
+</nav>
+
+
+<!-- ═══════════════════════════════════════
+     PROGRESS BAR
+═══════════════════════════════════════ -->
+<div class="bg-white border-b border-gray-200 py-4 px-6">
+  <div class="max-w-5xl mx-auto flex items-center gap-2">
+
+    <!-- Step 1 -->
+    <div class="flex items-center gap-2 flex-shrink-0">
+      <div id="circle-1" class="step-circle active">1</div>
+      <span id="label-1" class="font-display text-sm tracking-wider text-[#2D6A4F] hidden sm:block">DETAILS</span>
+    </div>
+
+    <div id="line-1" class="step-line"></div>
+
+    <!-- Step 2 -->
+    <div class="flex items-center gap-2 flex-shrink-0">
+      <div id="circle-2" class="step-circle inactive">2</div>
+      <span id="label-2" class="font-display text-sm tracking-wider text-gray-400 hidden sm:block">PAYMENT</span>
+    </div>
+
+    <div id="line-2" class="step-line"></div>
+
+    <!-- Step 3 -->
+    <div class="flex items-center gap-2 flex-shrink-0">
+      <div id="circle-3" class="step-circle inactive">3</div>
+      <span id="label-3" class="font-display text-sm tracking-wider text-gray-400 hidden sm:block">CONFIRMED</span>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     CHECKOUT STEPS
+═══════════════════════════════════════ -->
+<main class="py-12 px-6">
+  <div class="max-w-5xl mx-auto">
+
+
+    <!-- ════════════════════
+         STEP 1 — DETAILS
+    ════════════════════ -->
+    <div id="step-1" class="step-panel active">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+
+        <!-- Form -->
+        <div class="lg:col-span-2">
+          <h2 class="font-display text-3xl tracking-wider mb-6">YOUR DETAILS</h2>
+
+          <!-- Order type toggle -->
+          <div class="mb-6">
+            <label class="block text-xs font-semibold tracking-widest uppercase text-gray-500 mb-3">Order Type</label>
+            <div class="flex">
+              <button class="order-type-btn active" id="btn-eat-in" onclick="setOrderType('eat-in')">EAT IN</button>
+              <button class="order-type-btn" id="btn-takeaway" onclick="setOrderType('takeaway')">TAKEAWAY</button>
+            </div>
+          </div>
+
+          <!-- Full Name -->
+          <div class="mb-4">
+            <label class="block text-xs font-semibold tracking-widest uppercase text-gray-500 mb-2">Full Name *</label>
+            <input type="text" id="d-name" placeholder="Your full name" class="form-field" />
+            <p id="err-d-name" class="text-red-500 text-xs mt-1 hidden">Please enter your name.</p>
+          </div>
+
+          <!-- Email -->
+          <div class="mb-4">
+            <label class="block text-xs font-semibold tracking-widest uppercase text-gray-500 mb-2">Email Address *</label>
+            <input type="email" id="d-email" placeholder="your@email.com" class="form-field" />
+            <p id="err-d-email" class="text-red-500 text-xs mt-1 hidden">Please enter a valid email address.</p>
+          </div>
+
+          <!-- Phone -->
+          <div class="mb-4">
+            <label class="block text-xs font-semibold tracking-widest uppercase text-gray-500 mb-2">Phone Number *</label>
+            <input type="tel" id="d-phone" placeholder="+44 7700 000000" class="form-field" />
+            <p id="err-d-phone" class="text-red-500 text-xs mt-1 hidden">Please enter your phone number.</p>
+          </div>
+
+          <!-- Special Requests -->
+          <div class="mb-8">
+            <label class="block text-xs font-semibold tracking-widest uppercase text-gray-500 mb-2">Special Requests <span class="text-gray-400 normal-case font-normal">(optional)</span></label>
+            <textarea id="d-requests" placeholder="Any allergies, preferences or notes…" class="form-field"></textarea>
+          </div>
+
+          <button onclick="goToStep2()" class="btn-pill bg-[#2D6A4F] text-white text-base px-8 py-3 w-full text-center">NEXT: PAYMENT →</button>
+        </div>
+
+        <!-- Order summary -->
+        <div class="lg:col-span-1">
+          <div id="summary-1" class="bg-white border-2 border-gray-900 rounded-2xl p-6 sticky top-24">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ════════════════════
+         STEP 2 — PAYMENT
+    ════════════════════ -->
+    <div id="step-2" class="step-panel">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+
+        <!-- Payment form -->
+        <div class="lg:col-span-2">
+          <h2 class="font-display text-3xl tracking-wider mb-6">PAYMENT</h2>
+
+          <!-- Card Number -->
+          <div class="mb-4">
+            <label class="block text-xs font-semibold tracking-widest uppercase text-gray-500 mb-2">Card Number *</label>
+            <input type="text" id="p-card" placeholder="0000 0000 0000 0000" maxlength="19" class="form-field font-mono" inputmode="numeric" />
+            <p id="err-p-card" class="text-red-500 text-xs mt-1 hidden">Please enter a valid card number.</p>
+          </div>
+
+          <!-- Cardholder Name -->
+          <div class="mb-4">
+            <label class="block text-xs font-semibold tracking-widest uppercase text-gray-500 mb-2">Cardholder Name *</label>
+            <input type="text" id="p-name" placeholder="Name on card" class="form-field" />
+            <p id="err-p-name" class="text-red-500 text-xs mt-1 hidden">Please enter the cardholder name.</p>
+          </div>
+
+          <!-- Expiry + CVV -->
+          <div class="grid grid-cols-2 gap-4 mb-6">
+            <div>
+              <label class="block text-xs font-semibold tracking-widest uppercase text-gray-500 mb-2">Expiry *</label>
+              <input type="text" id="p-expiry" placeholder="MM / YY" maxlength="7" class="form-field font-mono" inputmode="numeric" />
+              <p id="err-p-expiry" class="text-red-500 text-xs mt-1 hidden">Invalid expiry.</p>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold tracking-widest uppercase text-gray-500 mb-2">Security Code *</label>
+              <input type="text" id="p-cvv" placeholder="CVV" maxlength="4" class="form-field font-mono" inputmode="numeric" />
+              <p id="err-p-cvv" class="text-red-500 text-xs mt-1 hidden">Invalid CVV.</p>
+            </div>
+          </div>
+
+          <!-- Security note -->
+          <div class="flex items-center gap-2 bg-green-50 border border-green-200 rounded-lg px-4 py-3 mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#2D6A4F] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            </svg>
+            <span class="text-sm text-[#2D6A4F] font-medium">Your payment is encrypted and secure</span>
+          </div>
+
+          <p class="text-xs text-gray-400 mb-6">We accept all major cards. No card details are stored.</p>
+
+          <button id="pay-btn" onclick="processPayment()" class="btn-pill bg-[#2D6A4F] text-white text-base px-8 py-3 w-full text-center mb-4">PAY £<span id="pay-amount">0.00</span></button>
+          <button onclick="goToStep1()" class="text-sm text-gray-500 hover:text-[#2D6A4F] transition-colors text-center block w-full">← Back to details</button>
+        </div>
+
+        <!-- Order summary -->
+        <div class="lg:col-span-1">
+          <div id="summary-2" class="bg-white border-2 border-gray-900 rounded-2xl p-6 sticky top-24">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ════════════════════
+         STEP 3 — CONFIRMATION
+    ════════════════════ -->
+    <div id="step-3" class="step-panel">
+      <div class="max-w-2xl mx-auto text-center py-8">
+
+        <!-- Animated checkmark -->
+        <div class="flex justify-center mb-8">
+          <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle class="confirm-circle" cx="60" cy="60" r="45" stroke="#2D6A4F" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <path class="confirm-check" d="M38 60 L52 74 L82 44" stroke="#2D6A4F" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <h1 class="font-display text-[clamp(2.5rem,7vw,5rem)] leading-none text-[#1C1007] mb-4">ORDER CONFIRMED!</h1>
+        <p class="text-gray-600 text-lg mb-10">Thank you for your order. We're preparing it now.</p>
+
+        <!-- Order details card -->
+        <div class="bg-white border-2 border-gray-900 rounded-2xl p-8 text-left mb-8">
+
+          <div class="flex items-center justify-between mb-6 border-b-2 border-gray-900 pb-4">
+            <div>
+              <p class="text-xs font-semibold tracking-widest text-gray-500 uppercase mb-1">Order Reference</p>
+              <p id="order-ref" class="font-display text-2xl tracking-wider">BWC-000000</p>
+            </div>
+            <div class="text-right">
+              <p class="text-xs font-semibold tracking-widest text-gray-500 uppercase mb-1">Estimated Wait</p>
+              <p class="font-display text-xl tracking-wider text-[#2D6A4F]">15 – 20 MINS</p>
+            </div>
+          </div>
+
+          <!-- Order items -->
+          <div id="confirm-items" class="space-y-3 mb-6">
+            <!-- Rendered by JS -->
+          </div>
+
+          <!-- Total -->
+          <div class="border-t-2 border-gray-900 pt-4 flex justify-between items-center">
+            <span class="font-display text-xl tracking-wider">TOTAL PAID</span>
+            <span id="confirm-total" class="font-display text-xl tracking-wider text-[#2D6A4F]">£0.00</span>
+          </div>
+        </div>
+
+        <p class="text-gray-500 text-sm mb-8">A confirmation has been sent to your email address.</p>
+
+        <a href="menu.html" class="btn-pill bg-[#2D6A4F] text-white text-base px-10 py-3 inline-block">BACK TO MENU</a>
+
+      </div>
+    </div>
+
+
+  </div>
+</main>
+
+
+<!-- ═══════════════════════════════════════
+     MINIMAL FOOTER
+═══════════════════════════════════════ -->
+<footer class="border-t border-gray-200 bg-[#F5EFE6] py-8 px-6 mt-auto">
+  <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+    <a href="index.html">
+      <img src="logo.svg" alt="Base Wellness Cafe" class="h-8 w-auto" style="filter: brightness(0) saturate(100%) invert(28%) sepia(50%) saturate(500%) hue-rotate(110deg) brightness(80%);" />
+    </a>
+    <p class="text-gray-500 text-xs tracking-widest text-center">© 2026 BASE WELLNESS CAFE · ALL RIGHTS RESERVED</p>
+    <div class="flex items-center gap-1 text-xs text-gray-500">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+      </svg>
+      Secure checkout
+    </div>
+  </div>
+</footer>
+
+
+<script>
+  // ── Cart helpers ──
+  function getCart() {
+    return JSON.parse(localStorage.getItem('bwc_cart') || '[]');
+  }
+
+  // ── Redirect if cart is empty ──
+  (function() {
+    const cart = getCart();
+    if (cart.length === 0 && !window.location.search.includes('confirmed')) {
+      // Allow step 3 view without redirect
+      const step3Active = false; // will be checked dynamically
+      window.addEventListener('DOMContentLoaded', () => {
+        if (document.getElementById('step-3') && !document.getElementById('step-3').classList.contains('active')) {
+          window.location.href = 'cart.html';
+        }
+      });
+    }
+  })();
+
+  // ── BOGO savings ──
+  function calcSavings(cart) {
+    const smoothieIds = ['strawberry-base', 'golden-hour'];
+    const plateIds    = ['golden-morning-yogurt-bowl', 'avocado-base', 'smoked-salmon-bagel'];
+    function bogoForGroup(ids) {
+      let units = [];
+      cart.forEach(item => {
+        if (ids.includes(item.id)) {
+          for (let i = 0; i < item.qty; i++) units.push(item.price);
+        }
+      });
+      units.sort((a, b) => a - b);
+      let savings = 0;
+      for (let i = 0; i < units.length; i += 2) savings += units[i];
+      return savings;
+    }
+    return bogoForGroup(smoothieIds) + bogoForGroup(plateIds);
+  }
+
+  // ── Build order summary HTML ──
+  function buildSummaryHTML() {
+    const cart     = getCart();
+    const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    const savings  = calcSavings(cart);
+    const total    = subtotal - savings;
+
+    const itemsHTML = cart.map(item => `
+      <div class="flex items-center gap-3 py-2">
+        <div class="w-12 h-12 flex-shrink-0 bg-[#F5EFE6] rounded-lg flex items-center justify-center overflow-hidden">
+          <img src="${item.img}" alt="${item.name}" class="w-full h-full object-contain product-img" />
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="font-semibold text-sm leading-tight truncate">${item.name}</p>
+          <p class="text-gray-500 text-xs">×${item.qty}</p>
+        </div>
+        <span class="font-semibold text-sm flex-shrink-0">£${(item.price * item.qty).toFixed(2)}</span>
+      </div>
+    `).join('');
+
+    const bogoHTML = savings > 0 ? `
+      <div class="flex justify-between text-sm text-[#2D6A4F]">
+        <span class="font-medium">BOGO Savings</span>
+        <span class="font-semibold">-£${savings.toFixed(2)}</span>
+      </div>
+    ` : '';
+
+    return `
+      <h3 class="font-display text-xl tracking-wider mb-4 border-b-2 border-gray-900 pb-3">ORDER SUMMARY</h3>
+      <div class="space-y-1 mb-4 border-b border-gray-100 pb-4">${itemsHTML}</div>
+      <div class="space-y-2">
+        <div class="flex justify-between text-sm">
+          <span class="text-gray-600">Subtotal</span>
+          <span class="font-semibold">£${subtotal.toFixed(2)}</span>
+        </div>
+        ${bogoHTML}
+        <div class="flex justify-between border-t-2 border-gray-900 pt-2 mt-2">
+          <span class="font-display text-lg tracking-wider">TOTAL</span>
+          <span class="font-display text-lg tracking-wider text-[#2D6A4F]">£${total.toFixed(2)}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  // ── Render summaries ──
+  function renderSummaries() {
+    const html = buildSummaryHTML();
+    document.getElementById('summary-1').innerHTML = html;
+    document.getElementById('summary-2').innerHTML = html;
+
+    // Set pay button amount
+    const total = parseFloat(localStorage.getItem('bwc_checkout_total') || '0');
+    const cart  = getCart();
+    const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    const savings  = calcSavings(cart);
+    const computed = subtotal - savings;
+    document.getElementById('pay-amount').textContent = computed.toFixed(2);
+  }
+
+  // ── Order type ──
+  let orderType = 'eat-in';
+  function setOrderType(type) {
+    orderType = type;
+    document.getElementById('btn-eat-in').classList.toggle('active', type === 'eat-in');
+    document.getElementById('btn-takeaway').classList.toggle('active', type === 'takeaway');
+  }
+
+  // ── Step management ──
+  function showStep(n) {
+    [1,2,3].forEach(i => {
+      document.getElementById(`step-${i}`).classList.toggle('active', i === n);
+    });
+    updateProgress(n);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateProgress(currentStep) {
+    [1,2,3].forEach(i => {
+      const circle = document.getElementById(`circle-${i}`);
+      const label  = document.getElementById(`label-${i}`);
+      if (i < currentStep) {
+        circle.classList.remove('active','inactive');
+        circle.classList.add('done');
+        circle.innerHTML = '✓';
+        if (label) { label.classList.remove('text-gray-400'); label.classList.add('text-[#2D6A4F]'); }
+      } else if (i === currentStep) {
+        circle.classList.remove('done','inactive');
+        circle.classList.add('active');
+        circle.innerHTML = i;
+        if (label) { label.classList.remove('text-gray-400'); label.classList.add('text-[#2D6A4F]'); }
+      } else {
+        circle.classList.remove('active','done');
+        circle.classList.add('inactive');
+        circle.innerHTML = i;
+        if (label) { label.classList.add('text-gray-400'); label.classList.remove('text-[#2D6A4F]'); }
+      }
+    });
+    // Lines
+    if (document.getElementById('line-1')) {
+      document.getElementById('line-1').classList.toggle('done', currentStep > 1);
+    }
+    if (document.getElementById('line-2')) {
+      document.getElementById('line-2').classList.toggle('done', currentStep > 2);
+    }
+  }
+
+  // ── Validation helpers ──
+  function fieldError(id, errId, show) {
+    const field = document.getElementById(id);
+    const err   = document.getElementById(errId);
+    if (show) {
+      field.classList.add('error');
+      err.classList.remove('hidden');
+    } else {
+      field.classList.remove('error');
+      err.classList.add('hidden');
+    }
+  }
+
+  // ── Step 1 → Step 2 ──
+  function goToStep2() {
+    let valid = true;
+
+    const name  = document.getElementById('d-name').value.trim();
+    const email = document.getElementById('d-email').value.trim();
+    const phone = document.getElementById('d-phone').value.trim();
+
+    fieldError('d-name',  'err-d-name',  !name);
+    fieldError('d-email', 'err-d-email', !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+    fieldError('d-phone', 'err-d-phone', !phone);
+
+    if (!name) valid = false;
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) valid = false;
+    if (!phone) valid = false;
+
+    if (valid) {
+      renderSummaries();
+      showStep(2);
+    }
+  }
+
+  // ── Step 2 → Step 1 ──
+  function goToStep1() {
+    showStep(1);
+  }
+
+  // ── Process payment ──
+  function processPayment() {
+    let valid = true;
+
+    const cardRaw  = document.getElementById('p-card').value.replace(/\s/g, '');
+    const cardName = document.getElementById('p-name').value.trim();
+    const expiry   = document.getElementById('p-expiry').value.trim();
+    const cvv      = document.getElementById('p-cvv').value.trim();
+
+    fieldError('p-card',   'err-p-card',   cardRaw.length < 16 || !/^\d+$/.test(cardRaw));
+    fieldError('p-name',   'err-p-name',   !cardName);
+    fieldError('p-expiry', 'err-p-expiry', !/^\d{2}\s?\/\s?\d{2}$/.test(expiry));
+    fieldError('p-cvv',    'err-p-cvv',    cvv.length < 3 || !/^\d+$/.test(cvv));
+
+    if (cardRaw.length < 16 || !/^\d+$/.test(cardRaw)) valid = false;
+    if (!cardName) valid = false;
+    if (!/^\d{2}\s?\/\s?\d{2}$/.test(expiry)) valid = false;
+    if (cvv.length < 3 || !/^\d+$/.test(cvv)) valid = false;
+
+    if (!valid) return;
+
+    // Show processing state
+    const btn = document.getElementById('pay-btn');
+    btn.textContent = 'PROCESSING...';
+    btn.style.opacity = '0.7';
+    btn.style.pointerEvents = 'none';
+
+    setTimeout(() => {
+      placeOrder();
+    }, 1500);
+  }
+
+  // ── Place order (step 3) ──
+  function placeOrder() {
+    const cart = getCart();
+    const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    const savings  = calcSavings(cart);
+    const total    = subtotal - savings;
+
+    // Generate order reference
+    const ref = 'BWC-' + Math.floor(100000 + Math.random() * 900000);
+    document.getElementById('order-ref').textContent = ref;
+    document.getElementById('confirm-total').textContent = '£' + total.toFixed(2);
+
+    // Render confirmation items
+    const itemsHTML = cart.map(item => `
+      <div class="flex items-center gap-3 py-2 border-b border-gray-100 last:border-0">
+        <div class="w-12 h-12 flex-shrink-0 bg-[#F5EFE6] rounded-lg flex items-center justify-center overflow-hidden">
+          <img src="${item.img}" alt="${item.name}" class="w-full h-full object-contain product-img" />
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="font-semibold text-sm leading-tight">${item.name}</p>
+          <p class="text-gray-500 text-xs">×${item.qty}</p>
+        </div>
+        <span class="font-semibold text-sm flex-shrink-0">£${(item.price * item.qty).toFixed(2)}</span>
+      </div>
+    `).join('');
+    document.getElementById('confirm-items').innerHTML = itemsHTML;
+
+    // Clear cart
+    localStorage.removeItem('bwc_cart');
+    localStorage.removeItem('bwc_checkout_total');
+
+    showStep(3);
+  }
+
+  // ── Auto-format card number ──
+  document.addEventListener('DOMContentLoaded', () => {
+    // Redirect if cart empty
+    const cart = getCart();
+    if (cart.length === 0) {
+      window.location.href = 'cart.html';
+      return;
+    }
+
+    renderSummaries();
+
+    const cardInput = document.getElementById('p-card');
+    cardInput.addEventListener('input', (e) => {
+      let v = e.target.value.replace(/\D/g, '').substring(0, 16);
+      e.target.value = v.replace(/(.{4})/g, '$1 ').trim();
+    });
+
+    // Auto-format expiry
+    const expiryInput = document.getElementById('p-expiry');
+    expiryInput.addEventListener('input', (e) => {
+      let v = e.target.value.replace(/\D/g, '').substring(0, 4);
+      if (v.length >= 3) {
+        e.target.value = v.substring(0, 2) + ' / ' + v.substring(2);
+      } else {
+        e.target.value = v;
+      }
+    });
+
+    // CVV — digits only
+    const cvvInput = document.getElementById('p-cvv');
+    cvvInput.addEventListener('input', (e) => {
+      e.target.value = e.target.value.replace(/\D/g, '').substring(0, 4);
+    });
+  });
+</script>
+
+</body>
+</html>

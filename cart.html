@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Bag — Base Wellness Cafe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: #F5EFE6;
+      font-family: 'Inter', sans-serif;
+      color: #1A1A1A;
+    }
+
+    .font-display { font-family: 'Bebas Neue', cursive; }
+
+    .btn-pill {
+      display: inline-block;
+      font-family: 'Bebas Neue', cursive;
+      letter-spacing: 0.1em;
+      border-radius: 6px;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+      cursor: pointer;
+    }
+    .btn-pill:hover { transform: scale(1.03); opacity: 0.92; }
+
+    .product-img { mix-blend-mode: multiply; }
+
+    /* Marquee */
+    .marquee-track {
+      display: flex;
+      animation: marquee 25s linear infinite;
+      white-space: nowrap;
+    }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* Qty button */
+    .qty-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      border: 2px solid #1A1A1A;
+      background: white;
+      font-family: 'Bebas Neue', cursive;
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease;
+    }
+    .qty-btn:hover { background: #1A1A1A; color: white; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     NAVBAR
+═══════════════════════════════════════ -->
+<nav class="sticky top-0 z-50 bg-[#F5EFE6]/95 backdrop-blur border-b border-gray-200">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center">
+
+    <!-- Left links — desktop only -->
+    <div class="hidden md:flex items-center gap-8 flex-1">
+      <a href="index.html" class="font-display text-lg tracking-wider hover:text-[#2D6A4F] transition-colors">HOME</a>
+      <a href="menu.html"  class="font-display text-lg tracking-wider hover:text-[#2D6A4F] transition-colors">MENU</a>
+      <a href="about.html" class="font-display text-lg tracking-wider hover:text-[#2D6A4F] transition-colors">ABOUT US</a>
+      <a href="contact.html" class="font-display text-lg tracking-wider hover:text-[#2D6A4F] transition-colors">CONTACT</a>
+    </div>
+
+    <!-- Mobile: hamburger -->
+    <button id="burger" class="md:hidden flex flex-col justify-center gap-[5px] w-8 flex-shrink-0" aria-label="Open menu">
+      <span class="burger-bar block h-[2px] bg-[#1A1A1A] rounded transition-all duration-300"></span>
+      <span class="burger-bar block h-[2px] bg-[#1A1A1A] rounded transition-all duration-300"></span>
+      <span class="burger-bar block h-[2px] bg-[#1A1A1A] rounded transition-all duration-300"></span>
+    </button>
+
+    <!-- Center logo -->
+    <a href="index.html" class="select-none mx-auto md:mx-0">
+      <img src="logo.svg" alt="Base Wellness Cafe" class="h-10 w-auto" style="filter: brightness(0) saturate(100%) invert(28%) sepia(50%) saturate(500%) hue-rotate(110deg) brightness(80%);" />
+    </a>
+
+    <!-- Right: bag icon + ORDER NOW -->
+    <div class="flex-1 flex justify-end items-center gap-3">
+      <a href="cart.html" class="relative text-[#2D6A4F]" aria-label="Shopping bag">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 9H4l1-9z"/></svg>
+        <span class="cart-badge absolute -top-2 -right-2 bg-[#2D6A4F] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center hidden font-bold">0</span>
+      </a>
+      <a href="menu.html" class="btn-pill bg-[#2D6A4F] text-white text-sm md:text-base px-3 md:px-5 py-1.5 md:py-2">ORDER NOW</a>
+    </div>
+
+  </div>
+
+  <!-- Mobile dropdown -->
+  <div id="mobile-menu" class="md:hidden overflow-hidden max-h-0 transition-all duration-300 ease-in-out border-t border-gray-200 bg-[#F5EFE6]">
+    <div class="flex flex-col px-6 py-4 gap-4">
+      <a href="index.html" class="font-display text-2xl tracking-wider hover:text-[#2D6A4F] transition-colors">HOME</a>
+      <a href="menu.html"  class="font-display text-2xl tracking-wider hover:text-[#2D6A4F] transition-colors">MENU</a>
+      <a href="about.html" class="font-display text-2xl tracking-wider hover:text-[#2D6A4F] transition-colors">ABOUT US</a>
+      <a href="contact.html" class="font-display text-2xl tracking-wider hover:text-[#2D6A4F] transition-colors">CONTACT</a>
+      <a href="menu.html"  class="btn-pill bg-[#2D6A4F] text-white text-lg px-6 py-2.5 text-center mt-2">ORDER NOW</a>
+    </div>
+  </div>
+</nav>
+
+<script>
+  const burger = document.getElementById('burger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const bars = burger.querySelectorAll('.burger-bar');
+  let open = false;
+  burger.addEventListener('click', () => {
+    open = !open;
+    mobileMenu.style.maxHeight = open ? mobileMenu.scrollHeight + 'px' : '0';
+    bars[0].style.transform = open ? 'translateY(7px) rotate(45deg)' : '';
+    bars[1].style.opacity   = open ? '0' : '1';
+    bars[2].style.transform = open ? 'translateY(-7px) rotate(-45deg)' : '';
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    open = false;
+    mobileMenu.style.maxHeight = '0';
+    bars[0].style.transform = bars[2].style.transform = '';
+    bars[1].style.opacity = '1';
+  }));
+</script>
+
+
+<!-- ═══════════════════════════════════════
+     PAGE HEADER
+═══════════════════════════════════════ -->
+<section class="bg-[#1C1007] pt-16 pb-16 px-8 md:px-16">
+  <div class="max-w-6xl mx-auto">
+    <h1 class="font-display text-[clamp(2.5rem,6vw,4.5rem)] text-white leading-none">YOUR ORDER</h1>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     CART CONTENT
+═══════════════════════════════════════ -->
+<section class="py-16 px-6 bg-[#F5EFE6]">
+  <div class="max-w-6xl mx-auto">
+
+    <!-- Empty state -->
+    <div id="cart-empty" class="hidden flex flex-col items-center justify-center py-24 text-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-24 h-24 text-gray-300 mb-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 9H4l1-9z"/>
+      </svg>
+      <h2 class="font-display text-4xl md:text-5xl text-[#1A1A1A] mb-4">YOUR BAG IS EMPTY</h2>
+      <p class="text-gray-500 text-lg mb-8">Looks like you haven't added anything yet.</p>
+      <a href="menu.html" class="btn-pill bg-[#2D6A4F] text-white text-base px-8 py-3">BROWSE MENU</a>
+    </div>
+
+    <!-- Cart has items -->
+    <div id="cart-filled" class="hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+
+        <!-- Items list -->
+        <div class="lg:col-span-2 flex flex-col gap-4" id="cart-items-list">
+          <!-- Rendered by JS -->
+        </div>
+
+        <!-- Totals card -->
+        <div class="lg:col-span-1">
+          <div class="bg-white border-2 border-gray-900 rounded-2xl p-6 sticky top-24">
+            <h2 class="font-display text-2xl tracking-wider mb-6 border-b-2 border-gray-900 pb-4">ORDER TOTAL</h2>
+
+            <div class="space-y-3 mb-6">
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-600">Subtotal</span>
+                <span id="subtotal-val" class="font-semibold">£0.00</span>
+              </div>
+              <div id="bogo-row" class="hidden flex justify-between text-sm">
+                <span class="text-[#2D6A4F] font-medium">BOGO Savings</span>
+                <span id="bogo-val" class="text-[#2D6A4F] font-semibold">-£0.00</span>
+              </div>
+              <div class="flex justify-between border-t-2 border-gray-900 pt-3">
+                <span class="font-display text-xl tracking-wider">TOTAL</span>
+                <span id="total-val" class="font-display text-xl tracking-wider">£0.00</span>
+              </div>
+            </div>
+
+            <a href="checkout.html" id="checkout-btn" class="btn-pill bg-[#2D6A4F] text-white text-base px-6 py-3 w-full text-center block mb-4">PROCEED TO CHECKOUT</a>
+            <a href="menu.html" class="text-sm text-gray-500 hover:text-[#2D6A4F] transition-colors text-center block">← Continue shopping</a>
+
+            <p class="text-xs text-gray-400 text-center mt-4">BOGO deals applied automatically at checkout</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     MARQUEE BANNER
+═══════════════════════════════════════ -->
+<div class="bg-[#2D6A4F] py-5 overflow-hidden">
+  <div class="marquee-track">
+    <span class="font-display text-2xl text-white tracking-widest px-8">ORDER ON DELIVEROO</span>
+    <span class="font-display text-2xl text-[#B07D4A] px-6">✦</span>
+    <span class="font-display text-2xl text-white tracking-widest px-8">WELLNESS LOOKS GOOD ON YOU</span>
+    <span class="font-display text-2xl text-[#B07D4A] px-6">✦</span>
+    <span class="font-display text-2xl text-white tracking-widest px-8">36 ROEHAMPTON HIGH STREET</span>
+    <span class="font-display text-2xl text-[#B07D4A] px-6">✦</span>
+    <span class="font-display text-2xl text-white tracking-widest px-8">MON–FRI & SUN · 10AM–4PM</span>
+    <span class="font-display text-2xl text-[#B07D4A] px-6">✦</span>
+    <span class="font-display text-2xl text-white tracking-widest px-8">ORDER ON DELIVEROO</span>
+    <span class="font-display text-2xl text-[#B07D4A] px-6">✦</span>
+    <span class="font-display text-2xl text-white tracking-widest px-8">WELLNESS LOOKS GOOD ON YOU</span>
+    <span class="font-display text-2xl text-[#B07D4A] px-6">✦</span>
+    <span class="font-display text-2xl text-white tracking-widest px-8">36 ROEHAMPTON HIGH STREET</span>
+    <span class="font-display text-2xl text-[#B07D4A] px-6">✦</span>
+    <span class="font-display text-2xl text-white tracking-widest px-8">MON–FRI & SUN · 10AM–4PM</span>
+    <span class="font-display text-2xl text-[#B07D4A] px-6">✦</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════ -->
+<footer class="bg-[#1A1A1A] text-white py-20 px-6">
+  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+    <div>
+      <img src="logo.svg" alt="Base Wellness Cafe" class="h-12 w-auto mb-5" style="filter: brightness(0) invert(1);" />
+      <p class="text-gray-400 text-sm leading-relaxed">Luxury wellness brand & café.<br>Wellness, intentionally.</p>
+    </div>
+    <div>
+      <h4 class="font-display text-lg tracking-widest text-[#B07D4A] mb-4">VISIT US</h4>
+      <p class="text-gray-400 text-sm leading-loose">
+        36 Roehampton High Street<br>London, SW15<br><br>
+        Mon–Fri & Sun: 10am – 4pm<br>Saturday: Closed
+      </p>
+    </div>
+    <div>
+      <h4 class="font-display text-lg tracking-widest text-[#B07D4A] mb-4">ORDER & FOLLOW</h4>
+      <a href="https://instagram.com/basewellnesscafe" target="_blank" class="text-gray-400 text-sm hover:text-white transition-colors">@basewellnesscafe</a>
+      <div class="mt-6 flex flex-col gap-3">
+        <a href="#" class="btn-pill bg-[#2D6A4F] text-white text-sm px-5 py-2 text-center">ORDER ON DELIVEROO</a>
+        <a href="mailto:hello@basewellnesscafe.co.uk" class="btn-pill border border-gray-600 text-gray-400 hover:text-white text-sm px-5 py-2 text-center transition-colors">GET IN TOUCH</a>
+      </div>
+    </div>
+  </div>
+  <div class="max-w-6xl mx-auto mt-16 pt-8 border-t border-gray-800 text-center text-gray-600 text-xs tracking-widest">
+    © 2026 BASE WELLNESS CAFE · ALL RIGHTS RESERVED
+  </div>
+</footer>
+
+
+<script>
+  // ── Cart storage helpers ──
+  function getCart() {
+    return JSON.parse(localStorage.getItem('bwc_cart') || '[]');
+  }
+  function saveCart(c) {
+    localStorage.setItem('bwc_cart', JSON.stringify(c));
+    updateBadge();
+  }
+
+  // ── Badge ──
+  function updateBadge() {
+    const n = getCart().reduce((s, i) => s + i.qty, 0);
+    document.querySelectorAll('.cart-badge').forEach(b => {
+      b.textContent = n;
+      b.classList.toggle('hidden', n === 0);
+    });
+  }
+
+  // ── Change quantity ──
+  function changeQty(id, delta) {
+    let cart = getCart();
+    const item = cart.find(i => i.id === id);
+    if (!item) return;
+    item.qty += delta;
+    if (item.qty <= 0) {
+      cart = cart.filter(i => i.id !== id);
+    }
+    saveCart(cart);
+    renderCart();
+  }
+
+  // ── Remove item ──
+  function removeItem(id) {
+    let cart = getCart().filter(i => i.id !== id);
+    saveCart(cart);
+    renderCart();
+  }
+
+  // ── BOGO savings calculator ──
+  // Smoothies: strawberry-base, golden-hour — every 2, cheapest is free
+  // Morning plates: golden-morning-yogurt-bowl, avocado-base, smoked-salmon-bagel — every 2, cheapest is free
+  function calcSavings(cart) {
+    const smoothieIds = ['strawberry-base', 'golden-hour'];
+    const plateIds    = ['golden-morning-yogurt-bowl', 'avocado-base', 'smoked-salmon-bagel'];
+
+    function bogoForGroup(ids) {
+      // Expand cart items in group into individual units sorted by price asc
+      let units = [];
+      cart.forEach(item => {
+        if (ids.includes(item.id)) {
+          for (let i = 0; i < item.qty; i++) {
+            units.push(item.price);
+          }
+        }
+      });
+      units.sort((a, b) => a - b); // cheapest first
+      let savings = 0;
+      // Every 2 items: cheapest (index 0, 2, 4…) is free
+      for (let i = 0; i < units.length; i += 2) {
+        savings += units[i];
+      }
+      return savings;
+    }
+
+    return bogoForGroup(smoothieIds) + bogoForGroup(plateIds);
+  }
+
+  // ── Render cart ──
+  function renderCart() {
+    const cart = getCart();
+    const emptyEl  = document.getElementById('cart-empty');
+    const filledEl = document.getElementById('cart-filled');
+    const listEl   = document.getElementById('cart-items-list');
+
+    if (cart.length === 0) {
+      emptyEl.classList.remove('hidden');
+      filledEl.classList.add('hidden');
+      return;
+    }
+
+    emptyEl.classList.add('hidden');
+    filledEl.classList.remove('hidden');
+
+    // Render items
+    listEl.innerHTML = cart.map(item => `
+      <div class="bg-white border-2 border-gray-900 rounded-2xl flex items-center gap-4 p-4 relative">
+        <!-- Product image -->
+        <div class="w-24 h-24 flex-shrink-0 bg-[#F5EFE6] rounded-xl flex items-center justify-center overflow-hidden">
+          <img src="${item.img}" alt="${item.name}" class="w-full h-full object-contain product-img" />
+        </div>
+
+        <!-- Info -->
+        <div class="flex-1 min-w-0">
+          <h3 class="font-display text-xl leading-none mb-1">${item.name}</h3>
+          <p class="text-[#2D6A4F] font-semibold text-sm">£${item.price.toFixed(2)} each</p>
+        </div>
+
+        <!-- Qty controls -->
+        <div class="flex items-center gap-2 flex-shrink-0">
+          <button class="qty-btn" onclick="changeQty('${item.id}', -1)">−</button>
+          <span class="font-display text-xl w-8 text-center">${item.qty}</span>
+          <button class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
+        </div>
+
+        <!-- Line total -->
+        <div class="w-16 text-right flex-shrink-0">
+          <span class="font-bold">£${(item.price * item.qty).toFixed(2)}</span>
+        </div>
+
+        <!-- Remove -->
+        <button onclick="removeItem('${item.id}')" class="absolute top-3 right-3 w-6 h-6 flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors text-lg leading-none" aria-label="Remove item">×</button>
+      </div>
+    `).join('');
+
+    // Calc totals
+    const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    const savings  = calcSavings(cart);
+    const total    = subtotal - savings;
+
+    document.getElementById('subtotal-val').textContent = '£' + subtotal.toFixed(2);
+
+    const bogoRow = document.getElementById('bogo-row');
+    if (savings > 0) {
+      bogoRow.classList.remove('hidden');
+      document.getElementById('bogo-val').textContent = '-£' + savings.toFixed(2);
+    } else {
+      bogoRow.classList.add('hidden');
+    }
+
+    document.getElementById('total-val').textContent = '£' + total.toFixed(2);
+
+    // Store total for checkout
+    localStorage.setItem('bwc_checkout_total', total.toFixed(2));
+  }
+
+  // Init
+  updateBadge();
+  renderCart();
+</script>
+
+</body>
+</html>

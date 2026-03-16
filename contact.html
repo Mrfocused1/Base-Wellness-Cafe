@@ -87,28 +87,44 @@
      NAVBAR
 ═══════════════════════════════════════ -->
 <nav class="sticky top-0 z-50 bg-[#F5EFE6]/95 backdrop-blur border-b border-gray-200">
-  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center">
+  <div class="relative max-w-7xl mx-auto px-6 py-4 flex items-center">
 
-    <div class="hidden md:flex items-center gap-8 flex-1">
-      <a href="index.html"   class="font-display text-lg tracking-wider hover:text-[#2D6A4F] transition-colors">HOME</a>
-      <a href="menu.html"    class="font-display text-lg tracking-wider hover:text-[#2D6A4F] transition-colors">MENU</a>
-      <a href="about.html"   class="font-display text-lg tracking-wider hover:text-[#2D6A4F] transition-colors">ABOUT US</a>
-      <a href="contact.html" class="font-display text-lg tracking-wider text-[#2D6A4F]">CONTACT</a>
+    <!-- LEFT GROUP: desktop nav links | mobile bag icon -->
+    <div class="flex-1 flex items-center gap-8">
+      <!-- Desktop links (hidden on mobile) -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="index.html"   class="font-display text-lg tracking-wider hover:text-[#2D6A4F] transition-colors">HOME</a>
+        <a href="about.html"   class="font-display text-lg tracking-wider hover:text-[#2D6A4F] transition-colors">ABOUT US</a>
+        <a href="contact.html" class="font-display text-lg tracking-wider text-[#2D6A4F]">CONTACT</a>
+      </div>
+      <!-- Mobile: bag icon only -->
+      <button onclick="openCartSheet()" class="md:hidden relative text-[#1A1A1A] hover:text-[#2D6A4F] transition-colors" aria-label="Shopping bag">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 9H4l1-9z"/></svg>
+        <span class="cart-badge absolute -top-2 -right-2 bg-[#2D6A4F] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center hidden font-bold">0</span>
+      </button>
     </div>
 
-    <button id="burger" class="md:hidden flex flex-col justify-center gap-[5px] w-8 flex-shrink-0" aria-label="Open menu">
-      <span class="burger-bar block h-[2px] bg-[#1A1A1A] rounded transition-all duration-300"></span>
-      <span class="burger-bar block h-[2px] bg-[#1A1A1A] rounded transition-all duration-300"></span>
-      <span class="burger-bar block h-[2px] bg-[#1A1A1A] rounded transition-all duration-300"></span>
-    </button>
-
-    <a href="index.html" class="select-none mx-auto md:mx-0">
+    <!-- CENTER: LOGO — absolute center on mobile, static on desktop -->
+    <a href="index.html" class="select-none absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
       <img src="logo.svg" alt="Base Wellness Cafe" class="h-10 w-auto"
            style="filter: brightness(0) saturate(100%) invert(28%) sepia(50%) saturate(500%) hue-rotate(110deg) brightness(80%);" />
     </a>
 
-    <div class="flex-1 flex justify-end">
-      <a href="menu.html" class="btn-pill bg-[#2D6A4F] text-white text-sm md:text-base px-3 md:px-5 py-1.5 md:py-2">ORDER NOW</a>
+    <!-- RIGHT GROUP: desktop MENU+bag+ORDER NOW | mobile burger -->
+    <div class="flex-1 flex justify-end items-center gap-3 md:gap-8">
+      <!-- Desktop only: MENU link, bag icon, ORDER NOW -->
+      <a href="menu.html" class="hidden md:block font-display text-lg tracking-wider hover:text-[#2D6A4F] transition-colors">MENU</a>
+      <button onclick="openCartSheet()" class="hidden md:block relative text-[#1A1A1A] hover:text-[#2D6A4F] transition-colors" aria-label="Shopping bag">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 9H4l1-9z"/></svg>
+        <span class="cart-badge absolute -top-2 -right-2 bg-[#2D6A4F] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center hidden font-bold">0</span>
+      </button>
+      <a href="menu.html" class="hidden md:block btn-pill bg-[#2D6A4F] text-white text-sm md:text-base px-3 md:px-5 py-1.5 md:py-2">ORDER NOW</a>
+      <!-- Mobile only: burger button -->
+      <button id="burger" class="md:hidden flex flex-col justify-center gap-[5px] w-8 flex-shrink-0" aria-label="Open menu">
+        <span class="burger-bar block h-[2px] bg-[#1A1A1A] rounded transition-all duration-300"></span>
+        <span class="burger-bar block h-[2px] bg-[#1A1A1A] rounded transition-all duration-300"></span>
+        <span class="burger-bar block h-[2px] bg-[#1A1A1A] rounded transition-all duration-300"></span>
+      </button>
     </div>
 
   </div>
@@ -450,5 +466,113 @@
   }
 </script>
 
+<!-- ═══ CART BOTTOM SHEET ═══ -->
+<div id="cart-overlay" onclick="closeCartSheet()" class="fixed inset-0 bg-black/50 z-[9998] hidden" style="opacity:0;transition:opacity 0.3s ease;"></div>
+<div id="cart-sheet" class="fixed bottom-0 left-0 right-0 z-[9999] bg-white rounded-t-3xl shadow-2xl" style="max-height:85vh;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);">
+  <!-- Drag handle -->
+  <div class="flex justify-center pt-3 pb-1 cursor-pointer" onclick="closeCartSheet()">
+    <div class="w-10 h-1 bg-gray-300 rounded-full"></div>
+  </div>
+  <!-- Sheet header -->
+  <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+    <h2 style="font-family:'Bebas Neue',cursive;" class="text-2xl tracking-wide">YOUR BAG</h2>
+    <button onclick="closeCartSheet()" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 text-xl leading-none">×</button>
+  </div>
+  <!-- Scrollable body -->
+  <div class="overflow-y-auto" style="max-height:calc(85vh - 160px);">
+    <!-- Empty state -->
+    <div id="sheet-empty" class="py-14 text-center hidden">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mx-auto mb-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 9H4l1-9z"/></svg>
+      <p style="font-family:'Bebas Neue',cursive;" class="text-xl text-gray-400 mb-1">YOUR BAG IS EMPTY</p>
+      <p class="text-gray-500 text-sm">Add items from the menu to get started.</p>
+    </div>
+    <!-- Items list -->
+    <div id="sheet-items" class="px-6 py-4 space-y-3"></div>
+    <!-- Footer: totals + CTA -->
+    <div id="sheet-footer" class="px-6 pb-8 hidden">
+      <div id="sheet-savings-row" class="hidden flex justify-between text-[#2D6A4F] text-sm font-semibold mb-2 pb-2">
+        <span>BOGO Savings</span><span id="sheet-savings-amt">-£0.00</span>
+      </div>
+      <div class="flex justify-between border-t-2 border-gray-900 pt-3 mb-5">
+        <span style="font-family:'Bebas Neue',cursive;" class="text-2xl">TOTAL</span>
+        <span id="sheet-total" style="font-family:'Bebas Neue',cursive;" class="text-2xl">£0.00</span>
+      </div>
+      <a href="checkout.html" style="font-family:'Bebas Neue',cursive;letter-spacing:0.1em;border-radius:6px;" class="bg-[#2D6A4F] text-white block text-center py-3.5 text-xl w-full mb-3 hover:opacity-90 transition-opacity">CHECKOUT</a>
+      <a href="cart.html" class="block text-center text-sm text-gray-500 hover:text-[#2D6A4F] transition-colors">View full bag →</a>
+    </div>
+  </div>
+</div>
+<script>
+  /* Cart + bottom sheet */
+  function getCart(){ return JSON.parse(localStorage.getItem('bwc_cart')||'[]'); }
+  function saveCart(c){ localStorage.setItem('bwc_cart',JSON.stringify(c)); updateBadge(); }
+  function updateBadge(){
+    const n=getCart().reduce((s,i)=>s+i.qty,0);
+    document.querySelectorAll('.cart-badge').forEach(b=>{b.textContent=n;b.classList.toggle('hidden',n===0)});
+  }
+  const BOGO_S = new Set(['strawberry-base','golden-hour']);
+  const BOGO_P = new Set(['golden-morning-yogurt-bowl','avocado-base','smoked-salmon-bagel']);
+  function calcSavingsSheet(cart){
+    let sav=0;
+    const cat=id=>BOGO_S.has(id)?'s':BOGO_P.has(id)?'p':null;
+    ['s','p'].forEach(t=>{
+      const items=cart.filter(i=>cat(i.id)===t).sort((a,b)=>a.price-b.price);
+      let free=Math.floor(items.reduce((s,i)=>s+i.qty,0)/2);
+      for(const item of items){const f=Math.min(free,item.qty);sav+=f*item.price;free-=f;if(!free)break;}
+    });
+    return sav;
+  }
+  function openCartSheet(){
+    renderSheet();
+    const ov=document.getElementById('cart-overlay');
+    const sh=document.getElementById('cart-sheet');
+    ov.classList.remove('hidden');
+    document.body.style.overflow='hidden';
+    requestAnimationFrame(()=>{ requestAnimationFrame(()=>{ ov.style.opacity='1'; sh.style.transform='translateY(0)'; }); });
+  }
+  function closeCartSheet(){
+    const ov=document.getElementById('cart-overlay');
+    const sh=document.getElementById('cart-sheet');
+    ov.style.opacity='0'; sh.style.transform='translateY(100%)';
+    setTimeout(()=>{ ov.classList.add('hidden'); document.body.style.overflow=''; },350);
+  }
+  function sheetQty(id,delta){
+    let cart=getCart();
+    const item=cart.find(i=>i.id===id);
+    if(item){item.qty+=delta;if(item.qty<=0)cart=cart.filter(i=>i.id!==id);}
+    saveCart(cart); renderSheet();
+  }
+  function renderSheet(){
+    const cart=getCart();
+    const emptyEl=document.getElementById('sheet-empty');
+    const itemsEl=document.getElementById('sheet-items');
+    const footerEl=document.getElementById('sheet-footer');
+    if(cart.length===0){emptyEl.classList.remove('hidden');itemsEl.innerHTML='';footerEl.classList.add('hidden');return;}
+    emptyEl.classList.add('hidden');footerEl.classList.remove('hidden');
+    itemsEl.innerHTML=cart.map(item=>`
+      <div class="flex items-center gap-3 bg-[#F5EFE6] rounded-xl p-3">
+        <div class="w-14 h-14 bg-white rounded-lg flex-shrink-0 overflow-hidden flex items-center justify-center">
+          <img src="${item.img}" alt="${item.name}" class="w-full h-full object-contain" style="mix-blend-mode:multiply;">
+        </div>
+        <div class="flex-1 min-w-0">
+          <p style="font-family:'Bebas Neue',cursive;" class="text-base leading-none mb-0.5">${item.name}</p>
+          <p class="text-[#2D6A4F] text-xs font-semibold">£${item.price.toFixed(2)}</p>
+        </div>
+        <div class="flex items-center gap-1.5 flex-shrink-0">
+          <button onclick="sheetQty('${item.id}',-1)" class="w-7 h-7 rounded-full border-2 border-gray-900 flex items-center justify-center text-sm font-bold hover:bg-gray-100">−</button>
+          <span class="font-bold text-sm w-5 text-center">${item.qty}</span>
+          <button onclick="sheetQty('${item.id}',1)" class="w-7 h-7 rounded-full bg-[#2D6A4F] text-white flex items-center justify-center text-sm hover:bg-[#1e4d39]">+</button>
+        </div>
+      </div>`).join('');
+    const sub=cart.reduce((s,i)=>s+i.price*i.qty,0);
+    const sav=calcSavingsSheet(cart);
+    const tot=sub-sav;
+    document.getElementById('sheet-total').textContent=`£${tot.toFixed(2)}`;
+    const savRow=document.getElementById('sheet-savings-row');
+    savRow.classList.toggle('hidden',sav===0);
+    document.getElementById('sheet-savings-amt').textContent=`-£${sav.toFixed(2)}`;
+  }
+  updateBadge();
+</script>
 </body>
 </html>
