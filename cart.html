@@ -341,28 +341,24 @@
 
     // Render items
     listEl.innerHTML = cart.map(item => `
-      <div class="bg-white border-2 border-gray-900 rounded-2xl flex items-center gap-4 p-4 relative">
+      <div class="bg-white border-2 border-gray-900 rounded-2xl flex gap-4 p-4 relative">
         <!-- Product image -->
-        <div class="w-24 h-24 flex-shrink-0 bg-[#F5EFE6] rounded-xl flex items-center justify-center overflow-hidden">
+        <div class="w-20 h-20 md:w-24 md:h-24 flex-shrink-0 bg-[#F5EFE6] rounded-xl flex items-center justify-center overflow-hidden">
           <img src="${item.img}" alt="${item.name}" class="w-full h-full object-contain product-img" />
         </div>
 
-        <!-- Info -->
-        <div class="flex-1 min-w-0">
+        <!-- Info + controls -->
+        <div class="flex-1 min-w-0 pr-6">
           <h3 class="font-display text-xl leading-none mb-1">${item.name}</h3>
-          <p class="text-[#2D6A4F] font-semibold text-sm">£${item.price.toFixed(2)} each</p>
-        </div>
-
-        <!-- Qty controls -->
-        <div class="flex items-center gap-2 flex-shrink-0">
-          <button class="qty-btn" onclick="changeQty('${item.id}', -1)">−</button>
-          <span class="font-display text-xl w-8 text-center">${item.qty}</span>
-          <button class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
-        </div>
-
-        <!-- Line total -->
-        <div class="w-16 text-right flex-shrink-0">
-          <span class="font-bold">£${(item.price * item.qty).toFixed(2)}</span>
+          <p class="text-[#2D6A4F] font-semibold text-sm mb-3">£${item.price.toFixed(2)} each</p>
+          <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2">
+              <button class="qty-btn" onclick="changeQty('${item.id}', -1)">−</button>
+              <span class="font-display text-xl w-8 text-center">${item.qty}</span>
+              <button class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
+            </div>
+            <span class="font-bold ml-auto">£${(item.price * item.qty).toFixed(2)}</span>
+          </div>
         </div>
 
         <!-- Remove -->
