@@ -91,14 +91,143 @@
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-    /* ── Hero scroll arrow ── */
+    /* ── Hero arrow ── */
     .hero-arrow {
+      width: 28px; height: 28px;
       animation: heroArrowBounce 1.6s ease-in-out infinite;
-      filter: drop-shadow(0 1px 4px rgba(0,0,0,0.4));
+      opacity: 0.5;
     }
     @keyframes heroArrowBounce {
-      0%, 100% { transform: translateY(0); opacity: 0.7; }
-      50%       { transform: translateY(10px); opacity: 1; }
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(10px); }
+    }
+
+    /* ── Hero Split Layout ── */
+    .hero-split {
+      background: #0B1F13;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 80px 0 60px;
+    }
+    .hero-split-inner {
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .hero-badges { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
+    .hero-badge-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 500;
+    }
+    .hero-badge-stars { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); color: white; }
+    .hero-badge-green { background: rgba(45,106,79,0.25); border: 1px solid rgba(82,183,136,0.4); color: #74c69d; }
+    .hero-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 5.5vw, 5rem);
+      font-weight: 700; font-style: italic;
+      color: white; line-height: 1.05; margin-bottom: 20px;
+    }
+    .hero-sub {
+      color: rgba(255,255,255,0.65);
+      font-size: 1.05rem; line-height: 1.75;
+      max-width: 420px; margin-bottom: 36px;
+    }
+    .hero-btns { display: flex; flex-wrap: wrap; gap: 14px; }
+    .hero-btn-primary {
+      display: inline-block; background: #2D6A4F; color: white;
+      font-family: 'Bebas Neue', cursive; font-size: 1.05rem; letter-spacing: 0.1em;
+      padding: 14px 30px; border-radius: 8px; text-decoration: none;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .hero-btn-primary:hover { opacity: 0.85; transform: scale(1.02); }
+    .hero-btn-outline {
+      display: inline-block; background: transparent; color: white;
+      font-family: 'Bebas Neue', cursive; font-size: 1.05rem; letter-spacing: 0.1em;
+      padding: 14px 30px; border-radius: 8px; text-decoration: none;
+      border: 2px solid rgba(255,255,255,0.25);
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .hero-btn-outline:hover { border-color: rgba(255,255,255,0.65); transform: scale(1.02); }
+    .hero-right { position: relative; }
+    .hero-img-wrap { border-radius: 24px; overflow: hidden; height: 560px; position: relative; }
+    .hero-img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+    .hero-img-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.35) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .hero-open-pill {
+      position: absolute; top: 18px; left: 18px;
+      display: flex; align-items: center; gap: 7px;
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      color: white; border-radius: 999px; padding: 7px 14px; font-size: 12.5px; font-weight: 500;
+    }
+    .hero-open-dot {
+      width: 8px; height: 8px; background: #52b788; border-radius: 50%; display: inline-block;
+      animation: heroDotPulse 2s ease-in-out infinite;
+    }
+    @keyframes heroDotPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(0.7); }
+    }
+    .hero-bag-pill {
+      position: absolute; top: 18px; right: 18px;
+      display: flex; align-items: center; gap: 7px;
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      color: white; border-radius: 999px; padding: 7px 14px; font-size: 12.5px; font-weight: 600;
+      transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .hero-toast {
+      position: absolute; top: 18px; left: 50%;
+      transform: translateX(-50%) translateY(-80px);
+      background: #2D6A4F; color: white; border-radius: 999px;
+      padding: 9px 20px; font-size: 13px; font-weight: 600;
+      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+      white-space: nowrap; z-index: 20; box-shadow: 0 4px 20px rgba(45,106,79,0.5);
+    }
+    .hero-product-card {
+      position: absolute; bottom: 28px; left: -24px;
+      background: white; border-radius: 20px; padding: 14px 16px; width: 215px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3); z-index: 10;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      animation: heroCardFloat 5s ease-in-out infinite;
+    }
+    @keyframes heroCardFloat {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-9px); }
+    }
+    .hero-prod-row { display: flex; align-items: center; gap: 11px; margin-bottom: 11px; }
+    .hero-prod-img-wrap {
+      width: 50px; height: 50px; border-radius: 10px; background: #f5efe6;
+      overflow: hidden; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    }
+    .hero-prod-img-wrap img { width: 100%; height: 100%; object-fit: contain; }
+    .hero-prod-name { font-weight: 700; font-size: 13px; line-height: 1.3; color: #1A1A1A; margin: 0; }
+    .hero-prod-price { color: #2D6A4F; font-weight: 700; font-size: 13px; margin: 3px 0 0; }
+    .hero-add-btn {
+      width: 100%; background: #2D6A4F; color: white; border: none;
+      border-radius: 10px; padding: 10px 0;
+      font-family: 'Bebas Neue', cursive; font-size: 14px; letter-spacing: 0.08em;
+      cursor: pointer; transition: background 0.25s, transform 0.15s;
+    }
+    .hero-add-btn:hover { background: #1B4332; transform: scale(1.02); }
+    .hero-arrow-wrap { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); }
+    @media (max-width: 768px) {
+      .hero-split { padding: 100px 0 80px; }
+      .hero-split-inner { grid-template-columns: 1fr; gap: 36px; padding: 0 24px; }
+      .hero-img-wrap { height: 340px; }
+      .hero-product-card { left: 10px; bottom: 10px; width: 185px; }
+      .hero-headline { font-size: clamp(2.6rem, 9vw, 3.5rem); }
     }
   </style>
 </head>
@@ -187,24 +316,120 @@
 <!-- ═══════════════════════════════════════
      HERO
 ═══════════════════════════════════════ -->
-<section class="min-h-screen flex flex-col items-center justify-center relative overflow-hidden" style="background: url('hero.png') center center / cover no-repeat;">
+<section class="hero-split">
+  <div class="hero-split-inner">
 
-  <!-- gradient overlay: centre tint for legibility -->
-  <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse at center, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.15) 50%, transparent 80%);"></div>
-
-  <!-- Hero text -->
-  <div class="relative z-10 text-center px-6 max-w-xl w-full">
-    <img src="logo.svg" alt="Base Wellness Cafe" class="h-28 md:h-40 w-auto mb-6 mx-auto" style="filter: brightness(0) saturate(100%) invert(35%) sepia(60%) saturate(400%) hue-rotate(110deg) brightness(85%) drop-shadow(1px 0 0 white) drop-shadow(-1px 0 0 white) drop-shadow(0 1px 0 white) drop-shadow(0 -1px 0 white);" />
-    <p class="text-white text-xl md:text-2xl" style="font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 700;">Fresh smoothies, matcha, bowls and more — made with real ingredients, every single day.</p>
-    <!-- Animated scroll arrow -->
-    <div class="mt-10 flex justify-center">
-      <svg class="hero-arrow w-8 h-8 text-white opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
-      </svg>
+    <!-- LEFT: copy -->
+    <div class="hero-left">
+      <div class="hero-badges">
+        <span class="hero-badge-pill hero-badge-stars">⭐ 4.8 on Google</span>
+        <span class="hero-badge-pill hero-badge-green">🌿 Putney, SW15</span>
+      </div>
+      <h1 class="hero-headline">Fresh wellness,<br>made your way.</h1>
+      <p class="hero-sub">Real smoothies, ceremonial matcha and nourishing bowls — crafted with real ingredients, made fresh every single day at 36 Roehampton High Street.</p>
+      <div class="hero-btns">
+        <a href="#order" class="hero-btn-primary">ORDER NOW</a>
+        <a href="menu.html" class="hero-btn-outline">VIEW MENU →</a>
+      </div>
     </div>
+
+    <!-- RIGHT: image + floating UI -->
+    <div class="hero-right">
+      <div class="hero-img-wrap">
+        <img src="hero.png" class="hero-img" alt="Base Wellness Cafe food spread" />
+        <div class="hero-img-overlay"></div>
+        <!-- Open now badge -->
+        <div class="hero-open-pill">
+          <span class="hero-open-dot"></span>
+          Open now · 10am–4pm
+        </div>
+        <!-- Bag count pill -->
+        <div class="hero-bag-pill" id="hero-bag-pill">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 9H4l1-9z"/></svg>
+          <span id="hero-bag-count">0 items</span>
+        </div>
+        <!-- Added toast -->
+        <div class="hero-toast" id="hero-toast">✓ Added to your bag!</div>
+      </div>
+
+      <!-- Floating product order card -->
+      <div class="hero-product-card" id="hero-product-card">
+        <div class="hero-prod-row">
+          <div class="hero-prod-img-wrap">
+            <img id="hero-prod-img" src="images/6.png" alt="" />
+          </div>
+          <div>
+            <p id="hero-prod-name" class="hero-prod-name">Strawberry Base</p>
+            <p id="hero-prod-price" class="hero-prod-price">£10.00</p>
+          </div>
+        </div>
+        <button id="hero-add-btn" class="hero-add-btn" onclick="heroAddToCart()">ADD TO ORDER +</button>
+      </div>
+    </div>
+
   </div>
 
+  <!-- Scroll arrow -->
+  <div class="hero-arrow-wrap">
+    <svg class="hero-arrow" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+    </svg>
+  </div>
 </section>
+
+<script>
+(function() {
+  const products = [
+    { name: 'Strawberry Base',      price: '£10.00',      img: 'images/6.png' },
+    { name: 'Iced Matcha Latte',    price: 'from £9.00',  img: 'images/4.png' },
+    { name: 'Golden Morning Bowl',  price: '£9.00',       img: 'images/3.png' },
+    { name: 'Avocado Base',         price: '£11.00',      img: 'images/2.png' },
+  ];
+  let idx = 0, bagCount = 0, animating = false;
+
+  window.heroAddToCart = function() {
+    if (animating) return;
+    animating = true;
+
+    const btn    = document.getElementById('hero-add-btn');
+    const toast  = document.getElementById('hero-toast');
+    const bagEl  = document.getElementById('hero-bag-count');
+    const pill   = document.getElementById('hero-bag-pill');
+    const card   = document.getElementById('hero-product-card');
+
+    btn.style.background = '#1B4332';
+    btn.textContent = '✓ ADDED!';
+    toast.style.transform = 'translateX(-50%) translateY(0)';
+
+    bagCount++;
+    bagEl.textContent = bagCount + (bagCount === 1 ? ' item' : ' items');
+    pill.style.transform = 'scale(1.18)';
+    setTimeout(() => { pill.style.transform = 'scale(1)'; }, 300);
+
+    setTimeout(() => {
+      toast.style.transform = 'translateX(-50%) translateY(-80px)';
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(14px)';
+
+      setTimeout(() => {
+        idx = (idx + 1) % products.length;
+        const p = products[idx];
+        document.getElementById('hero-prod-img').src = p.img;
+        document.getElementById('hero-prod-name').textContent = p.name;
+        document.getElementById('hero-prod-price').textContent = p.price;
+        btn.style.background = '#2D6A4F';
+        btn.textContent = 'ADD TO ORDER +';
+        card.style.opacity = '1';
+        card.style.transform = '';
+        animating = false;
+      }, 350);
+    }, 1900);
+  };
+
+  // Auto-cycle every 4.5s
+  setInterval(() => { window.heroAddToCart(); }, 4500);
+})();
+</script>
 
 
 <!-- ═══════════════════════════════════════
