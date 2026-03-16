@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Base Wellness Cafe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: #F5EFE6;
+      font-family: 'Inter', sans-serif;
+      color: #1A1A1A;
+    }
+
+    .font-display { font-family: 'Bebas Neue', cursive; }
+
+    .btn-pill {
+      display: inline-block;
+      font-family: 'Bebas Neue', cursive;
+      letter-spacing: 0.1em;
+      border-radius: 6px;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+      cursor: pointer;
+    }
+    .btn-pill:hover { transform: scale(1.03); opacity: 0.92; }
+
+    /* Form inputs */
+    .form-field {
+      width: 100%;
+      background: #fff;
+      border: 2px solid #1A1A1A;
+      border-radius: 8px;
+      padding: 14px 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      color: #1A1A1A;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .form-field::placeholder { color: #aaa; }
+    .form-field:focus {
+      border-color: #2D6A4F;
+      box-shadow: 0 0 0 3px rgba(45,106,79,0.12);
+    }
+
+    textarea.form-field { resize: vertical; min-height: 140px; }
+
+    /* Select arrow */
+    select.form-field {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%231A1A1A' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 40px;
+    }
+
+    /* Marquee */
+    .marquee-track {
+      display: flex;
+      animation: marquee 25s linear infinite;
+      white-space: nowrap;
+    }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* Success state */
+    #success-msg {
+      display: none;
+    }
+
+    /* Fade up */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     NAVBAR
+═══════════════════════════════════════ -->
+<nav class="sticky top-0 z-50 bg-[#F5EFE6]/95 backdrop-blur border-b border-gray-200">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center">
+
+    <div class="hidden md:flex items-center gap-8 flex-1">
+      <a href="index.html"   class="font-display text-lg tracking-wider hover:text-[#2D6A4F] transition-colors">HOME</a>
+      <a href="menu.html"    class="font-display text-lg tracking-wider hover:text-[#2D6A4F] transition-colors">MENU</a>
+      <a href="about.html"   class="font-display text-lg tracking-wider hover:text-[#2D6A4F] transition-colors">ABOUT US</a>
+      <a href="contact.html" class="font-display text-lg tracking-wider text-[#2D6A4F]">CONTACT</a>
+    </div>
+
+    <button id="burger" class="md:hidden flex flex-col justify-center gap-[5px] w-8 flex-shrink-0" aria-label="Open menu">
+      <span class="burger-bar block h-[2px] bg-[#1A1A1A] rounded transition-all duration-300"></span>
+      <span class="burger-bar block h-[2px] bg-[#1A1A1A] rounded transition-all duration-300"></span>
+      <span class="burger-bar block h-[2px] bg-[#1A1A1A] rounded transition-all duration-300"></span>
+    </button>
+
+    <a href="index.html" class="select-none mx-auto md:mx-0">
+      <img src="logo.svg" alt="Base Wellness Cafe" class="h-10 w-auto"
+           style="filter: brightness(0) saturate(100%) invert(28%) sepia(50%) saturate(500%) hue-rotate(110deg) brightness(80%);" />
+    </a>
+
+    <div class="flex-1 flex justify-end">
+      <a href="menu.html" class="btn-pill bg-[#2D6A4F] text-white text-sm md:text-base px-3 md:px-5 py-1.5 md:py-2">ORDER NOW</a>
+    </div>
+
+  </div>
+
+  <div id="mobile-menu" class="md:hidden overflow-hidden max-h-0 transition-all duration-300 ease-in-out border-t border-gray-200 bg-[#F5EFE6]">
+    <div class="flex flex-col px-6 py-4 gap-4">
+      <a href="index.html"   class="font-display text-2xl tracking-wider hover:text-[#2D6A4F] transition-colors">HOME</a>
+      <a href="menu.html"    class="font-display text-2xl tracking-wider hover:text-[#2D6A4F] transition-colors">MENU</a>
+      <a href="about.html"   class="font-display text-2xl tracking-wider hover:text-[#2D6A4F] transition-colors">ABOUT US</a>
+      <a href="contact.html" class="font-display text-2xl tracking-wider text-[#2D6A4F]">CONTACT</a>
+      <a href="menu.html"    class="btn-pill bg-[#2D6A4F] text-white text-lg px-6 py-2.5 text-center mt-2">ORDER NOW</a>
+    </div>
+  </div>
+</nav>
+
+<script>
+  const burger = document.getElementById('burger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const bars = burger.querySelectorAll('.burger-bar');
+  let open = false;
+  burger.addEventListener('click', () => {
+    open = !open;
+    mobileMenu.style.maxHeight = open ? mobileMenu.scrollHeight + 'px' : '0';
+    bars[0].style.transform = open ? 'translateY(7px) rotate(45deg)' : '';
+    bars[1].style.opacity   = open ? '0' : '1';
+    bars[2].style.transform = open ? 'translateY(-7px) rotate(-45deg)' : '';
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    open = false;
+    mobileMenu.style.maxHeight = '0';
+    bars[0].style.transform = bars[2].style.transform = '';
+    bars[1].style.opacity = '1';
+  }));
+</script>
+
+
+<!-- ═══════════════════════════════════════
+     PAGE HEADER
+═══════════════════════════════════════ -->
+<section class="pt-20 pb-12 px-6 bg-[#F5EFE6] text-center fade-up">
+  <p class="font-display text-lg tracking-[0.35em] text-[#2D6A4F] mb-2">BASE WELLNESS CAFE · PUTNEY</p>
+  <h1 class="font-display text-[clamp(3rem,9vw,6rem)] leading-none text-[#1A1A1A] mb-4">GET IN TOUCH</h1>
+  <p class="text-gray-500 max-w-lg mx-auto text-base leading-relaxed">Questions about allergens, events, wholesale or just want to say hello — we'd love to hear from you.</p>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     MAIN CONTENT: FORM + INFO
+═══════════════════════════════════════ -->
+<section class="pb-24 px-6 bg-[#F5EFE6]">
+  <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
+
+
+    <!-- ── CONTACT FORM ── -->
+    <div class="lg:col-span-3 fade-up">
+      <div class="bg-white rounded-2xl border-2 border-gray-900 p-8 md:p-10">
+
+        <h2 class="font-display text-2xl tracking-wider mb-8">SEND US A MESSAGE</h2>
+
+        <!-- Form -->
+        <form id="contact-form" novalidate>
+
+          <!-- Name + Email row -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label class="block text-xs font-semibold tracking-widest uppercase text-gray-500 mb-2">Full Name *</label>
+              <input type="text" id="name" placeholder="Your name" class="form-field" required />
+              <p class="error-msg text-red-500 text-xs mt-1 hidden">Please enter your name.</p>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold tracking-widest uppercase text-gray-500 mb-2">Email Address *</label>
+              <input type="email" id="email" placeholder="your@email.com" class="form-field" required />
+              <p class="error-msg text-red-500 text-xs mt-1 hidden">Please enter a valid email.</p>
+            </div>
+          </div>
+
+          <!-- Phone -->
+          <div class="mb-4">
+            <label class="block text-xs font-semibold tracking-widest uppercase text-gray-500 mb-2">Phone Number <span class="text-gray-400 normal-case font-normal">(optional)</span></label>
+            <input type="tel" id="phone" placeholder="+44 7700 000000" class="form-field" />
+          </div>
+
+          <!-- Subject -->
+          <div class="mb-4">
+            <label class="block text-xs font-semibold tracking-widest uppercase text-gray-500 mb-2">Subject *</label>
+            <select id="subject" class="form-field" required>
+              <option value="" disabled selected>Select a topic…</option>
+              <option value="general">General Enquiry</option>
+              <option value="allergens">Allergens & Ingredients</option>
+              <option value="catering">Catering & Events</option>
+              <option value="wholesale">Wholesale</option>
+              <option value="feedback">Feedback</option>
+              <option value="press">Press & Partnerships</option>
+              <option value="other">Other</option>
+            </select>
+            <p class="error-msg text-red-500 text-xs mt-1 hidden">Please select a subject.</p>
+          </div>
+
+          <!-- Message -->
+          <div class="mb-6">
+            <label class="block text-xs font-semibold tracking-widest uppercase text-gray-500 mb-2">Message *</label>
+            <textarea id="message" placeholder="Tell us what's on your mind…" class="form-field" required></textarea>
+            <p class="error-msg text-red-500 text-xs mt-1 hidden">Please write a message.</p>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="btn-pill bg-[#2D6A4F] text-white text-base px-10 py-3 w-full text-center">
+            SEND MESSAGE
+          </button>
+
+        </form>
+
+        <!-- Success message -->
+        <div id="success-msg" class="text-center py-8">
+          <div class="w-14 h-14 rounded-full bg-[#2D6A4F] flex items-center justify-center mx-auto mb-4">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+            </svg>
+          </div>
+          <h3 class="font-display text-2xl mb-2">MESSAGE SENT!</h3>
+          <p class="text-gray-500 text-sm">Thanks for reaching out. We'll get back to you within 24 hours.</p>
+          <button onclick="resetForm()" class="btn-pill border-2 border-[#2D6A4F] text-[#2D6A4F] text-sm px-6 py-2 mt-6">SEND ANOTHER</button>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ── CONTACT INFO ── -->
+    <div class="lg:col-span-2 flex flex-col gap-4 fade-up" style="transition-delay:0.15s">
+
+      <!-- Visit -->
+      <div class="bg-[#2D6A4F] rounded-2xl border-2 border-gray-900 p-7 text-white">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+          </div>
+          <h3 class="font-display text-xl tracking-widest">VISIT US</h3>
+        </div>
+        <p class="text-white/80 text-sm leading-loose">
+          36 Roehampton High Street<br>
+          London, SW15
+        </p>
+      </div>
+
+      <!-- Hours -->
+      <div class="bg-white rounded-2xl border-2 border-gray-900 p-7">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-9 h-9 rounded-full bg-[#2D6A4F] flex items-center justify-center flex-shrink-0">
+            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <h3 class="font-display text-xl tracking-widest">OPENING HOURS</h3>
+        </div>
+        <div class="text-sm space-y-2">
+          <div class="flex justify-between text-gray-600 pb-2 border-b border-gray-100">
+            <span>Monday – Friday</span><span class="font-semibold text-[#1A1A1A]">10am – 4pm</span>
+          </div>
+          <div class="flex justify-between text-gray-600 pb-2 border-b border-gray-100">
+            <span>Saturday</span><span class="font-semibold text-red-500">Closed</span>
+          </div>
+          <div class="flex justify-between text-gray-600">
+            <span>Sunday</span><span class="font-semibold text-[#1A1A1A]">10am – 4pm</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Follow -->
+      <div class="bg-[#EDE4D7] rounded-2xl border-2 border-gray-900 p-7">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-9 h-9 rounded-full bg-[#2D6A4F] flex items-center justify-center flex-shrink-0">
+            <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+          </div>
+          <h3 class="font-display text-xl tracking-widest">FOLLOW US</h3>
+        </div>
+        <p class="text-gray-600 text-sm mb-4">Stay up to date with new menu items, offers and behind-the-scenes content.</p>
+        <a href="https://instagram.com/basewellnesscafe" target="_blank"
+           class="btn-pill bg-[#1A1A1A] text-white text-sm px-5 py-2 inline-block">
+          @BASEWELLNESSCAFE
+        </a>
+      </div>
+
+      <!-- Deliveroo -->
+      <div class="bg-white rounded-2xl border-2 border-gray-900 p-7 flex items-center gap-5">
+        <div class="w-9 h-9 rounded-full bg-[#2D6A4F] flex items-center justify-center flex-shrink-0">
+          <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+          </svg>
+        </div>
+        <div class="flex-1">
+          <h3 class="font-display text-lg tracking-widest mb-1">ORDER ON DELIVEROO</h3>
+          <p class="text-gray-500 text-xs">Get it delivered straight to your door.</p>
+        </div>
+        <a href="#" class="btn-pill bg-[#2D6A4F] text-white text-xs px-4 py-2 flex-shrink-0">ORDER</a>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     MAP PLACEHOLDER
+═══════════════════════════════════════ -->
+<section class="px-6 pb-24 bg-[#F5EFE6]">
+  <div class="max-w-6xl mx-auto fade-up">
+    <div class="rounded-2xl border-2 border-gray-900 overflow-hidden" style="height:380px;">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2484.08!2d-0.2413!3d51.4572!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48760f5c5b5b5b5b%3A0x0!2s36+Roehampton+High+St%2C+London+SW15!5e0!3m2!1sen!2suk!4v1"
+        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Base Wellness Cafe location"></iframe>
+    </div>
+    <p class="text-center text-gray-500 text-sm mt-3">36 Roehampton High Street, London SW15</p>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     MARQUEE
+═══════════════════════════════════════ -->
+<div class="bg-[#2D6A4F] py-5 overflow-hidden">
+  <div class="marquee-track">
+    <span class="font-display text-xl text-white tracking-widest px-8">GET IN TOUCH</span>
+    <span class="font-display text-xl text-[#B07D4A] px-6">✦</span>
+    <span class="font-display text-xl text-white tracking-widest px-8">WELLNESS LOOKS GOOD ON YOU</span>
+    <span class="font-display text-xl text-[#B07D4A] px-6">✦</span>
+    <span class="font-display text-xl text-white tracking-widest px-8">36 ROEHAMPTON HIGH STREET · SW15</span>
+    <span class="font-display text-xl text-[#B07D4A] px-6">✦</span>
+    <span class="font-display text-xl text-white tracking-widest px-8">MON–FRI & SUN · 10AM–4PM</span>
+    <span class="font-display text-xl text-[#B07D4A] px-6">✦</span>
+    <span class="font-display text-xl text-white tracking-widest px-8">GET IN TOUCH</span>
+    <span class="font-display text-xl text-[#B07D4A] px-6">✦</span>
+    <span class="font-display text-xl text-white tracking-widest px-8">WELLNESS LOOKS GOOD ON YOU</span>
+    <span class="font-display text-xl text-[#B07D4A] px-6">✦</span>
+    <span class="font-display text-xl text-white tracking-widest px-8">36 ROEHAMPTON HIGH STREET · SW15</span>
+    <span class="font-display text-xl text-[#B07D4A] px-6">✦</span>
+    <span class="font-display text-xl text-white tracking-widest px-8">MON–FRI & SUN · 10AM–4PM</span>
+    <span class="font-display text-xl text-[#B07D4A] px-6">✦</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════ -->
+<footer class="bg-[#1A1A1A] text-white py-20 px-6">
+  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+    <div>
+      <img src="logo.svg" alt="Base Wellness Cafe" class="h-12 w-auto mb-5" style="filter: brightness(0) invert(1);" />
+      <p class="text-gray-400 text-sm leading-relaxed">Luxury wellness brand & café.<br>Wellness, intentionally.</p>
+    </div>
+    <div>
+      <h4 class="font-display text-lg tracking-widest text-[#B07D4A] mb-4">VISIT US</h4>
+      <p class="text-gray-400 text-sm leading-loose">
+        36 Roehampton High Street<br>London, SW15<br><br>
+        Mon–Fri & Sun: 10am – 4pm<br>Saturday: Closed
+      </p>
+    </div>
+    <div>
+      <h4 class="font-display text-lg tracking-widest text-[#B07D4A] mb-4">ORDER & FOLLOW</h4>
+      <a href="https://instagram.com/basewellnesscafe" target="_blank" class="text-gray-400 text-sm hover:text-white transition-colors">@basewellnesscafe</a>
+      <div class="mt-6 flex flex-col gap-3">
+        <a href="#" class="btn-pill bg-[#2D6A4F] text-white text-sm px-5 py-2 text-center">ORDER ON DELIVEROO</a>
+        <a href="mailto:hello@basewellnesscafe.co.uk" class="btn-pill border border-gray-600 text-gray-400 hover:text-white text-sm px-5 py-2 text-center transition-colors">GET IN TOUCH</a>
+      </div>
+    </div>
+  </div>
+  <div class="max-w-6xl mx-auto mt-16 pt-8 border-t border-gray-800 text-center text-gray-600 text-xs tracking-widest">
+    © 2026 BASE WELLNESS CAFE · ALL RIGHTS RESERVED
+  </div>
+</footer>
+
+
+<!-- ═══════════════════════════════════════
+     SCRIPTS
+═══════════════════════════════════════ -->
+<script>
+  // Fade-up on scroll
+  const observer = new IntersectionObserver(
+    entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+    { threshold: 0.1 }
+  );
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Form validation & submission
+  const form = document.getElementById('contact-form');
+  const successMsg = document.getElementById('success-msg');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let valid = true;
+
+    // Clear previous errors
+    form.querySelectorAll('.error-msg').forEach(el => el.classList.add('hidden'));
+    form.querySelectorAll('.form-field').forEach(el => el.style.borderColor = '');
+
+    const name    = document.getElementById('name');
+    const email   = document.getElementById('email');
+    const subject = document.getElementById('subject');
+    const message = document.getElementById('message');
+
+    if (!name.value.trim()) {
+      showError(name); valid = false;
+    }
+    if (!email.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+      showError(email); valid = false;
+    }
+    if (!subject.value) {
+      showError(subject); valid = false;
+    }
+    if (!message.value.trim()) {
+      showError(message); valid = false;
+    }
+
+    if (valid) {
+      form.style.display = 'none';
+      successMsg.style.display = 'block';
+    }
+  });
+
+  function showError(field) {
+    field.style.borderColor = '#ef4444';
+    const err = field.nextElementSibling;
+    if (err && err.classList.contains('error-msg')) err.classList.remove('hidden');
+  }
+
+  function resetForm() {
+    form.reset();
+    form.style.display = 'block';
+    successMsg.style.display = 'none';
+  }
+</script>
+
+</body>
+</html>

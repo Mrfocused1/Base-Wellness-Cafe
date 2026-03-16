@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Base Wellness Cafe — Putney</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --cream: #F5EFE6;
+      --cream-dark: #EDE4D7;
+      --green: #2D6A4F;
+      --green-dark: #1B4332;
+      --gold: #B07D4A;
+      --text: #1A1A1A;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--cream);
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+    }
+
+    .font-display { font-family: 'Bebas Neue', cursive; }
+
+    /* Remove white backgrounds from product images */
+    .product-img { mix-blend-mode: multiply; }
+
+    /* ── Starburst badge ── */
+    .starburst {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .starburst svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .starburst-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 24px;
+      line-height: 1.2;
+    }
+
+    /* ── Marquee ── */
+    .marquee-track {
+      display: flex;
+      animation: marquee 25s linear infinite;
+      white-space: nowrap;
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── Review cards ── */
+    .review-starburst {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .review-starburst svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .review-starburst-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 28px;
+      line-height: 1.4;
+    }
+
+    /* ── Pill button ── */
+    .btn-pill {
+      display: inline-block;
+      font-family: 'Bebas Neue', cursive;
+      letter-spacing: 0.1em;
+      border-radius: 6px;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+      cursor: pointer;
+    }
+    .btn-pill:hover { transform: scale(1.03); opacity: 0.92; }
+
+    /* ── Hero ── */
+    .hero-bg {
+      background: linear-gradient(160deg, #e8f5e9 0%, #f5efe6 40%, #d4ede3 100%);
+    }
+
+    /* Scrollbar hide */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     NAVBAR
+═══════════════════════════════════════ -->
+<nav class="sticky top-0 z-50 bg-[#F5EFE6]/95 backdrop-blur border-b border-gray-200">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center">
+
+    <!-- Left links — desktop only -->
+    <div class="hidden md:flex items-center gap-8 flex-1">
+      <a href="menu.html" class="font-display text-lg tracking-wider hover:text-[#2D6A4F] transition-colors">MENU</a>
+      <a href="about.html"    class="font-display text-lg tracking-wider hover:text-[#2D6A4F] transition-colors">ABOUT US</a>
+      <a href="contact.html"  class="font-display text-lg tracking-wider hover:text-[#2D6A4F] transition-colors">CONTACT</a>
+    </div>
+
+    <!-- Mobile: hamburger (left) -->
+    <button id="burger" class="md:hidden flex flex-col justify-center gap-[5px] w-8 flex-shrink-0" aria-label="Open menu">
+      <span class="burger-bar block h-[2px] bg-[#1A1A1A] rounded transition-all duration-300"></span>
+      <span class="burger-bar block h-[2px] bg-[#1A1A1A] rounded transition-all duration-300"></span>
+      <span class="burger-bar block h-[2px] bg-[#1A1A1A] rounded transition-all duration-300"></span>
+    </button>
+
+    <!-- Center logo -->
+    <a href="index.html" class="select-none mx-auto md:mx-0">
+      <img src="logo.svg" alt="Base Wellness Cafe" class="h-10 w-auto" style="filter: brightness(0) saturate(100%) invert(28%) sepia(50%) saturate(500%) hue-rotate(110deg) brightness(80%);" />
+    </a>
+
+    <!-- Right CTA -->
+    <div class="flex-1 flex justify-end">
+      <a href="#order" class="btn-pill bg-[#2D6A4F] text-white text-sm md:text-base px-3 md:px-5 py-1.5 md:py-2">ORDER NOW</a>
+    </div>
+
+  </div>
+
+  <!-- Mobile dropdown -->
+  <div id="mobile-menu" class="md:hidden overflow-hidden max-h-0 transition-all duration-300 ease-in-out border-t border-gray-200 bg-[#F5EFE6]">
+    <div class="flex flex-col px-6 py-4 gap-4">
+      <a href="menu.html" class="font-display text-2xl tracking-wider hover:text-[#2D6A4F] transition-colors">MENU</a>
+      <a href="about.html"    class="font-display text-2xl tracking-wider hover:text-[#2D6A4F] transition-colors">ABOUT US</a>
+      <a href="contact.html"  class="font-display text-2xl tracking-wider hover:text-[#2D6A4F] transition-colors">CONTACT</a>
+      <a href="#order"    class="btn-pill bg-[#2D6A4F] text-white text-lg px-6 py-2.5 text-center mt-2">ORDER NOW</a>
+    </div>
+  </div>
+</nav>
+
+<script>
+  const burger = document.getElementById('burger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const bars = burger.querySelectorAll('.burger-bar');
+  let open = false;
+  burger.addEventListener('click', () => {
+    open = !open;
+    mobileMenu.style.maxHeight = open ? mobileMenu.scrollHeight + 'px' : '0';
+    bars[0].style.transform = open ? 'translateY(7px) rotate(45deg)' : '';
+    bars[1].style.opacity   = open ? '0' : '1';
+    bars[2].style.transform = open ? 'translateY(-7px) rotate(-45deg)' : '';
+  });
+  // Close on link click
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    open = false;
+    mobileMenu.style.maxHeight = '0';
+    bars[0].style.transform = bars[2].style.transform = '';
+    bars[1].style.opacity = '1';
+  }));
+</script>
+
+
+<!-- ═══════════════════════════════════════
+     HERO
+═══════════════════════════════════════ -->
+<section class="min-h-screen flex flex-col items-end justify-end relative overflow-hidden" style="background: url('hero.png') center center / cover no-repeat;">
+
+  <!-- subtle dark gradient at bottom for button legibility -->
+  <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none"></div>
+
+  <!-- ORDER NOW button pinned to bottom centre -->
+  <div class="relative z-10 w-full flex justify-center pb-16">
+    <a href="#order" class="btn-pill bg-[#2D6A4F] text-white text-base px-7 py-2.5">ORDER NOW</a>
+  </div>
+
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     BEST SELLERS
+═══════════════════════════════════════ -->
+<section id="menu" class="py-24 px-6 bg-[#F5EFE6]">
+  <div class="max-w-6xl mx-auto text-center">
+
+    <h2 class="font-display text-[clamp(1.8rem,4vw,3rem)] text-[#2D6A4F] leading-none mb-1">WHAT EVERYONE'S WELLNESS ABOUT</h2>
+    <p class="font-display text-lg tracking-[0.2em] text-[#1A1A1A] mb-16">BASE BEST SELLERS</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+
+      <!-- Item 1 – Strawberry Base -->
+      <div class="flex flex-col items-center">
+        <div class="relative mb-6 w-full flex justify-center" style="height:280px;">
+          <img src="images/6.png" alt="Strawberry Base" class="h-full w-auto object-contain product-img" />
+          <div class="starburst absolute top-0 right-4 w-24 h-24">
+            <svg viewBox="0 0 100 100"><polygon points="50,2 58,28 83,16 70,40 97,44 78,60 90,85 62,75 50,98 38,75 10,85 22,60 3,44 30,40 17,16 42,28" fill="#B07D4A"/></svg>
+            <div class="starburst-content text-white font-bold text-[11px]">#1<br>Best<br>Seller</div>
+          </div>
+        </div>
+        <h3 class="font-display text-3xl mb-1">STRAWBERRY BASE</h3>
+        <p class="text-gray-500 text-sm max-w-[220px] leading-relaxed mb-2">Strawberry, banana, yogurt, vitamin C + collagen + honey</p>
+        <p class="font-bold">£10.00</p>
+      </div>
+
+      <!-- Item 2 – Iced Matcha Latte -->
+      <div class="flex flex-col items-center">
+        <div class="relative mb-6 w-full flex justify-center" style="height:280px;">
+          <img src="images/4.png" alt="Iced Matcha Latte" class="h-full w-auto object-contain product-img" />
+          <div class="starburst absolute top-0 right-4 w-24 h-24">
+            <svg viewBox="0 0 100 100"><polygon points="50,2 58,28 83,16 70,40 97,44 78,60 90,85 62,75 50,98 38,75 10,85 22,60 3,44 30,40 17,16 42,28" fill="#2D6A4F"/></svg>
+            <div class="starburst-content text-white font-bold text-[11px]">Customer<br>Fave</div>
+          </div>
+        </div>
+        <h3 class="font-display text-3xl mb-1">ICED MATCHA LATTE</h3>
+        <p class="text-gray-500 text-sm max-w-[220px] leading-relaxed mb-2">Ceremonial grade matcha, no syrup, served over ice</p>
+        <p class="font-bold">from £9.00</p>
+      </div>
+
+      <!-- Item 3 – Yogurt Bowl -->
+      <div class="flex flex-col items-center">
+        <div class="relative mb-6 w-full flex justify-center" style="height:280px;">
+          <img src="images/3.png" alt="Golden Morning Yogurt Bowl" class="h-full w-auto object-contain product-img" />
+          <div class="starburst absolute top-0 right-4 w-24 h-24">
+            <svg viewBox="0 0 100 100"><polygon points="50,2 58,28 83,16 70,40 97,44 78,60 90,85 62,75 50,98 38,75 10,85 22,60 3,44 30,40 17,16 42,28" fill="#c0392b"/></svg>
+            <div class="starburst-content text-white font-bold text-[11px]">Morning<br>Must</div>
+          </div>
+        </div>
+        <h3 class="font-display text-3xl mb-1">GOLDEN MORNING BOWL</h3>
+        <p class="text-gray-500 text-sm max-w-[220px] leading-relaxed mb-2">Greek yogurt, granola, fresh fruit and a drizzle of honey</p>
+        <p class="font-bold">£9.00</p>
+      </div>
+
+    </div>
+
+    <a href="#order" class="btn-pill bg-[#2D6A4F] text-white text-base px-7 py-2.5">START YOUR ORDER</a>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     BUNDLES / LIMITED TIME
+═══════════════════════════════════════ -->
+<section class="py-24 px-6 bg-[#EDE4D7]">
+  <div class="max-w-6xl mx-auto text-center">
+
+    <h2 class="font-display text-[clamp(1.8rem,4vw,3rem)] text-[#2D6A4F] leading-none mb-1">HERE TODAY, GONE TOMORROW</h2>
+    <p class="font-display text-lg tracking-[0.2em] mb-20">CURRENT BUNDLES</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+
+      <!-- Bundle 1 – Iced Matcha & Breakfast -->
+      <div class="relative bg-white rounded-2xl border-2 border-gray-900 flex flex-col items-center overflow-visible">
+        <!-- Starburst badge overlapping top-left corner -->
+        <div class="starburst absolute -top-8 -left-6 w-24 h-24 z-10">
+          <svg viewBox="0 0 100 100"><polygon points="50,2 58,28 83,16 70,40 97,44 78,60 90,85 62,75 50,98 38,75 10,85 22,60 3,44 30,40 17,16 42,28" fill="#B07D4A"/></svg>
+          <div class="starburst-content text-white font-bold text-[11px]">SAVE<br>£1.00</div>
+        </div>
+        <!-- Product image fills the card top -->
+        <div class="w-full flex justify-center pt-8 pb-4 px-6" style="height:260px;">
+          <img src="images/8.png" alt="Iced Matcha Latte" class="h-full w-auto object-contain product-img" />
+        </div>
+        <div class="px-6 pb-8 text-center">
+          <h3 class="font-display text-2xl mb-2">ICED MATCHA & BREAKFAST</h3>
+          <p class="text-gray-500 text-sm leading-relaxed mb-3">Your choice of matcha paired with a fresh brunch plate. Perfect for a nourishing start.</p>
+          <p class="font-bold text-lg">£15.00 <span class="text-gray-400 line-through font-normal text-sm ml-1">£30.00</span></p>
+        </div>
+      </div>
+
+      <!-- Bundle 2 – Smoothie & Brunch -->
+      <div class="relative bg-white rounded-2xl border-2 border-gray-900 flex flex-col items-center overflow-visible">
+        <div class="starburst absolute -top-8 -left-6 w-24 h-24 z-10">
+          <svg viewBox="0 0 100 100"><polygon points="50,2 58,28 83,16 70,40 97,44 78,60 90,85 62,75 50,98 38,75 10,85 22,60 3,44 30,40 17,16 42,28" fill="#c0392b"/></svg>
+          <div class="starburst-content text-white font-bold text-[11px]">BUY 1<br>GET 1<br>FREE</div>
+        </div>
+        <div class="w-full flex justify-center pt-8 pb-4 px-6" style="height:260px;">
+          <img src="images/7.png" alt="Strawberry Smoothie" class="h-full w-auto object-contain product-img" />
+        </div>
+        <div class="px-6 pb-8 text-center">
+          <h3 class="font-display text-2xl mb-2">SMOOTHIE & BRUNCH</h3>
+          <p class="text-gray-500 text-sm leading-relaxed mb-3">Your choice of functional smoothie paired with your choice of brunch plate.</p>
+          <p class="font-bold text-lg">£18.00 <span class="text-gray-400 line-through font-normal text-sm ml-1">£38.00</span></p>
+        </div>
+      </div>
+
+      <!-- Bundle 3 – Morning Plates BOGO -->
+      <div class="relative bg-white rounded-2xl border-2 border-gray-900 flex flex-col items-center overflow-visible">
+        <div class="starburst absolute -top-8 -left-6 w-24 h-24 z-10">
+          <svg viewBox="0 0 100 100"><polygon points="50,2 58,28 83,16 70,40 97,44 78,60 90,85 62,75 50,98 38,75 10,85 22,60 3,44 30,40 17,16 42,28" fill="#2D6A4F"/></svg>
+          <div class="starburst-content text-white font-bold text-[11px]">BOGO<br>EVERY<br>DAY</div>
+        </div>
+        <div class="w-full flex justify-center pt-8 pb-4 px-6" style="height:260px;">
+          <img src="images/2.png" alt="Avocado Base" class="h-full w-auto object-contain product-img" />
+        </div>
+        <div class="px-6 pb-8 text-center">
+          <h3 class="font-display text-2xl mb-2">MORNING PLATES</h3>
+          <p class="text-gray-500 text-sm leading-relaxed mb-3">All morning plates — buy one, get one free every single day.</p>
+          <p class="font-bold text-lg">From £9.00</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     INSTAGRAM FEED
+═══════════════════════════════════════ -->
+<section class="py-24 px-6 bg-[#F5EFE6]">
+  <div class="max-w-6xl mx-auto text-center">
+
+    <p class="font-display text-base tracking-[0.3em] mb-1">ON THE FEED:</p>
+    <h2 class="font-display text-[clamp(1.8rem,4vw,3rem)] text-[#2D6A4F] leading-none mb-1">WELLNESS LOOKS GOOD ON YOU</h2>
+    <p class="font-semibold text-lg mb-14">Spotted: Real Ones Doing It Right</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+      <!-- Post 1 -->
+      <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+        <div class="flex items-center gap-3 px-4 py-3 border-b border-gray-100">
+          <div class="w-9 h-9 rounded-full bg-gradient-to-br from-[#2D6A4F] to-[#B07D4A] flex items-center justify-center text-white text-xs font-bold">B</div>
+          <div class="text-left">
+            <p class="font-semibold text-sm leading-none">basewellnesscafe</p>
+            <p class="text-xs text-gray-400 mt-0.5">Base Wellness Cafe</p>
+          </div>
+          <span class="ml-auto text-gray-300 text-xl">···</span>
+        </div>
+        <div class="h-64 bg-gradient-to-br from-[#c8e6c9] to-[#388e3c]/60 flex items-center justify-center text-9xl">🍵</div>
+        <div class="px-4 py-3 flex items-center gap-5 text-sm text-gray-400">
+          <span>♡ 127</span><span>💬 19</span><span>↗ 31</span>
+        </div>
+      </div>
+
+      <!-- Post 2 -->
+      <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+        <div class="flex items-center gap-3 px-4 py-3 border-b border-gray-100">
+          <div class="w-9 h-9 rounded-full bg-gradient-to-br from-[#2D6A4F] to-[#B07D4A] flex items-center justify-center text-white text-xs font-bold">B</div>
+          <div class="text-left">
+            <p class="font-semibold text-sm leading-none">basewellnesscafe</p>
+            <p class="text-xs text-gray-400 mt-0.5">Base Wellness Cafe</p>
+          </div>
+          <span class="ml-auto text-gray-300 text-xl">···</span>
+        </div>
+        <div class="h-64 bg-gradient-to-br from-[#f8bbd0] to-[#e91e63]/40 flex items-center justify-center text-9xl">🍓</div>
+        <div class="px-4 py-3 flex items-center gap-5 text-sm text-gray-400">
+          <span>♡ 203</span><span>💬 34</span><span>↗ 47</span>
+        </div>
+      </div>
+
+      <!-- Post 3 -->
+      <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+        <div class="flex items-center gap-3 px-4 py-3 border-b border-gray-100">
+          <div class="w-9 h-9 rounded-full bg-gradient-to-br from-[#2D6A4F] to-[#B07D4A] flex items-center justify-center text-white text-xs font-bold">B</div>
+          <div class="text-left">
+            <p class="font-semibold text-sm leading-none">basewellnesscafe</p>
+            <p class="text-xs text-gray-400 mt-0.5">Base Wellness Cafe</p>
+          </div>
+          <span class="ml-auto text-gray-300 text-xl">···</span>
+        </div>
+        <div class="h-64 bg-gradient-to-br from-[#fff9c4] to-[#f9a825]/60 flex items-center justify-center text-9xl">🥑</div>
+        <div class="px-4 py-3 flex items-center gap-5 text-sm text-gray-400">
+          <span>♡ 94</span><span>💬 12</span><span>↗ 18</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="mt-12">
+      <a href="https://instagram.com/basewellnesscafe" target="_blank" class="btn-pill border-2 border-[#2D6A4F] text-[#2D6A4F] text-base px-6 py-2">
+        FOLLOW @BASEWELLNESSCAFE
+      </a>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     REVIEWS
+═══════════════════════════════════════ -->
+<section class="py-24 px-6 bg-[#EDE4D7]">
+  <div class="max-w-6xl mx-auto text-center">
+
+    <h2 class="font-display text-[clamp(1.8rem,4vw,3rem)] text-[#2D6A4F] leading-none mb-1">REAL TALK, REAL WELLNESS</h2>
+    <p class="font-display text-base tracking-[0.2em] mb-16">THEY CAME. THEY GLOWED. THEY CAME BACK.</p>
+
+    <!-- Scrollable row -->
+    <div class="flex gap-8 overflow-x-auto no-scrollbar pb-4 justify-start md:justify-center">
+
+      <!-- Review 1 -->
+      <div class="review-starburst relative flex-shrink-0 w-60 h-60">
+        <svg viewBox="0 0 100 100" style="position:absolute;inset:0;width:100%;height:100%;"><polygon points="50,2 58,28 83,16 70,40 97,44 78,60 90,85 62,75 50,98 38,75 10,85 22,60 3,44 30,40 17,16 42,28" fill="white" stroke="#e0d6c8" stroke-width="1"/></svg>
+        <div class="review-starburst-content relative z-10">
+          <div class="text-[#2D6A4F] text-xl mb-2">🌿</div>
+          <p class="text-xs italic text-gray-600 leading-relaxed">"Best matcha in Putney. The ceremonial grade really makes a difference."</p>
+        </div>
+      </div>
+
+      <!-- Review 2 -->
+      <div class="review-starburst relative flex-shrink-0 w-60 h-60">
+        <svg viewBox="0 0 100 100" style="position:absolute;inset:0;width:100%;height:100%;"><polygon points="50,2 58,28 83,16 70,40 97,44 78,60 90,85 62,75 50,98 38,75 10,85 22,60 3,44 30,40 17,16 42,28" fill="white" stroke="#e0d6c8" stroke-width="1"/></svg>
+        <div class="review-starburst-content relative z-10">
+          <div class="text-[#2D6A4F] text-xl mb-2">🌿</div>
+          <p class="text-xs italic text-gray-600 leading-relaxed">"So fresh — I can really taste the collagen boost in every smoothie!"</p>
+        </div>
+      </div>
+
+      <!-- Review 3 -->
+      <div class="review-starburst relative flex-shrink-0 w-60 h-60">
+        <svg viewBox="0 0 100 100" style="position:absolute;inset:0;width:100%;height:100%;"><polygon points="50,2 58,28 83,16 70,40 97,44 78,60 90,85 62,75 50,98 38,75 10,85 22,60 3,44 30,40 17,16 42,28" fill="white" stroke="#e0d6c8" stroke-width="1"/></svg>
+        <div class="review-starburst-content relative z-10">
+          <div class="text-[#2D6A4F] text-xl mb-2">🌿</div>
+          <p class="text-xs italic text-gray-600 leading-relaxed">"The yogurt bowl is my Sunday ritual. Simple, nourishing and beautiful."</p>
+        </div>
+      </div>
+
+      <!-- Review 4 -->
+      <div class="review-starburst relative flex-shrink-0 w-60 h-60">
+        <svg viewBox="0 0 100 100" style="position:absolute;inset:0;width:100%;height:100%;"><polygon points="50,2 58,28 83,16 70,40 97,44 78,60 90,85 62,75 50,98 38,75 10,85 22,60 3,44 30,40 17,16 42,28" fill="white" stroke="#e0d6c8" stroke-width="1"/></svg>
+        <div class="review-starburst-content relative z-10">
+          <div class="text-[#2D6A4F] text-xl mb-2">🌿</div>
+          <p class="text-xs italic text-gray-600 leading-relaxed">"Avocado base is perfectly seasoned every single time. My go-to."</p>
+        </div>
+      </div>
+
+      <!-- Review 5 -->
+      <div class="review-starburst relative flex-shrink-0 w-60 h-60">
+        <svg viewBox="0 0 100 100" style="position:absolute;inset:0;width:100%;height:100%;"><polygon points="50,2 58,28 83,16 70,40 97,44 78,60 90,85 62,75 50,98 38,75 10,85 22,60 3,44 30,40 17,16 42,28" fill="white" stroke="#e0d6c8" stroke-width="1"/></svg>
+        <div class="review-starburst-content relative z-10">
+          <div class="text-[#2D6A4F] text-xl mb-2">🌿</div>
+          <p class="text-xs italic text-gray-600 leading-relaxed">"Finally a cafe that takes wellness seriously without being boring."</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     MARQUEE BANNER
+═══════════════════════════════════════ -->
+<div class="bg-[#2D6A4F] py-5 overflow-hidden">
+  <div class="marquee-track">
+    <!-- Set 1 -->
+    <span class="font-display text-2xl text-white tracking-widest px-8">ORDER ON DELIVEROO</span>
+    <span class="font-display text-2xl text-[#B07D4A] px-6">✦</span>
+    <span class="font-display text-2xl text-white tracking-widest px-8">WELLNESS LOOKS GOOD ON YOU</span>
+    <span class="font-display text-2xl text-[#B07D4A] px-6">✦</span>
+    <span class="font-display text-2xl text-white tracking-widest px-8">36 ROEHAMPTON HIGH STREET</span>
+    <span class="font-display text-2xl text-[#B07D4A] px-6">✦</span>
+    <span class="font-display text-2xl text-white tracking-widest px-8">MON–FRI & SUN · 10AM–4PM</span>
+    <span class="font-display text-2xl text-[#B07D4A] px-6">✦</span>
+    <!-- Set 2 (duplicate for seamless loop) -->
+    <span class="font-display text-2xl text-white tracking-widest px-8">ORDER ON DELIVEROO</span>
+    <span class="font-display text-2xl text-[#B07D4A] px-6">✦</span>
+    <span class="font-display text-2xl text-white tracking-widest px-8">WELLNESS LOOKS GOOD ON YOU</span>
+    <span class="font-display text-2xl text-[#B07D4A] px-6">✦</span>
+    <span class="font-display text-2xl text-white tracking-widest px-8">36 ROEHAMPTON HIGH STREET</span>
+    <span class="font-display text-2xl text-[#B07D4A] px-6">✦</span>
+    <span class="font-display text-2xl text-white tracking-widest px-8">MON–FRI & SUN · 10AM–4PM</span>
+    <span class="font-display text-2xl text-[#B07D4A] px-6">✦</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════ -->
+<footer id="contact" class="bg-[#1A1A1A] text-white py-20 px-6">
+  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+
+    <div>
+      <img src="logo.svg" alt="Base Wellness Cafe" class="h-12 w-auto mb-5" style="filter: brightness(0) invert(1);" />
+      <p class="text-gray-400 text-sm leading-relaxed">Luxury wellness brand & café.<br>Wellness, intentionally.</p>
+    </div>
+
+    <div>
+      <h4 class="font-display text-lg tracking-widest text-[#B07D4A] mb-4">VISIT US</h4>
+      <p class="text-gray-400 text-sm leading-loose">
+        36 Roehampton High Street<br>
+        London, SW15<br><br>
+        Mon–Fri & Sun: 10am – 4pm<br>
+        Saturday: Closed
+      </p>
+    </div>
+
+    <div>
+      <h4 class="font-display text-lg tracking-widest text-[#B07D4A] mb-4">ORDER & FOLLOW</h4>
+      <a href="https://instagram.com/basewellnesscafe" target="_blank" class="text-gray-400 text-sm hover:text-white transition-colors">@basewellnesscafe</a>
+      <div class="mt-6 flex flex-col gap-3">
+        <a id="order" href="#" class="btn-pill bg-[#2D6A4F] text-white text-base px-6 py-2.5 text-center">ORDER ON DELIVEROO</a>
+        <a href="mailto:hello@basewellnesscafe.co.uk" class="btn-pill border border-gray-600 text-gray-400 hover:text-white text-base px-6 py-2.5 text-center transition-colors">GET IN TOUCH</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="max-w-6xl mx-auto mt-16 pt-8 border-t border-gray-800 text-center text-gray-600 text-xs tracking-widest">
+    © 2026 BASE WELLNESS CAFE · ALL RIGHTS RESERVED
+  </div>
+</footer>
+
+</body>
+</html>
