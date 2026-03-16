@@ -167,18 +167,32 @@
       <!-- Images col — order 2 on mobile (below text), order 1 on desktop (left) -->
       <div class="order-2 lg:order-1">
 
-        <!-- MOBILE: horizontal image scroll -->
-        <div class="flex lg:hidden overflow-x-auto gap-3 px-6 py-6 no-scrollbar">
-          <div class="w-[75vw] h-52 flex-shrink-0 overflow-hidden rounded-xl shadow-md border-2 border-[#1C1007]">
-            <img src="storefront.png" alt="Base Wellness Cafe storefront" class="w-full h-full object-cover" />
+        <!-- MOBILE: auto slideshow -->
+        <div class="block lg:hidden relative overflow-hidden border-2 border-[#1C1007] shadow-md mx-auto my-6" style="aspect-ratio:1/1;width:60%;">
+          <div id="about-slides" class="flex h-full transition-transform duration-700 ease-in-out">
+            <img src="storefront.png" alt="Base Wellness Cafe storefront" class="w-full h-full object-cover flex-shrink-0" />
+            <img src="interior.jpeg" alt="Base Wellness Cafe interior" class="w-full h-full object-cover flex-shrink-0" />
+            <img src="counter.png" alt="Base Wellness Cafe counter" class="w-full h-full object-cover flex-shrink-0" />
           </div>
-          <div class="w-[65vw] h-52 flex-shrink-0 overflow-hidden rounded-xl shadow-md border-2 border-[#1C1007]">
-            <img src="interior.jpeg" alt="Base Wellness Cafe interior" class="w-full h-full object-cover" />
-          </div>
-          <div class="w-[65vw] h-52 flex-shrink-0 overflow-hidden rounded-xl shadow-md border-2 border-[#1C1007]">
-            <img src="counter.png" alt="Base Wellness Cafe counter" class="w-full h-full object-cover" />
+          <!-- Dots -->
+          <div class="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5">
+            <span class="about-dot w-1.5 h-1.5 rounded-full bg-white opacity-100"></span>
+            <span class="about-dot w-1.5 h-1.5 rounded-full bg-white opacity-40"></span>
+            <span class="about-dot w-1.5 h-1.5 rounded-full bg-white opacity-40"></span>
           </div>
         </div>
+        <script>
+          (function(){
+            const track = document.getElementById('about-slides');
+            const dots = document.querySelectorAll('.about-dot');
+            let cur = 0, total = 3;
+            setInterval(function(){
+              cur = (cur + 1) % total;
+              track.style.transform = 'translateX(-' + (cur * 100) + '%)';
+              dots.forEach(function(d, i){ d.style.opacity = i === cur ? '1' : '0.4'; });
+            }, 3000);
+          })();
+        </script>
 
         <!-- DESKTOP: overlapping collage -->
         <div class="hidden lg:block relative pl-6" style="height: 760px;">

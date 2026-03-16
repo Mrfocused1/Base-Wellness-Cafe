@@ -55,6 +55,11 @@
       to   { transform: translateX(-50%); }
     }
 
+    @media (max-width: 767px) {
+      .marquee-track { animation-duration: 10s; }
+      .review-marquee-track { animation-duration: 16s; }
+    }
+
     /* ── Review cards ── */
     .review-card {
       display: inline-flex;
@@ -344,11 +349,6 @@
       <div class="hero-img-wrap">
         <img src="hero.png" class="hero-img" alt="Base Wellness Cafe food spread" />
         <div class="hero-img-overlay"></div>
-        <!-- Open now badge -->
-        <div class="hero-open-pill">
-          <span class="hero-open-dot"></span>
-          Open now
-        </div>
         <!-- Bag count pill -->
         <div class="hero-bag-pill" id="hero-bag-pill">
           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 9H4l1-9z"/></svg>
@@ -448,11 +448,11 @@
     <h2 class="font-display text-[clamp(1.8rem,4vw,3rem)] text-[#2D6A4F] leading-none mb-1">WHAT EVERYONE'S TALKING ABOUT</h2>
     <p class="font-display text-lg tracking-[0.2em] text-[#1A1A1A] mb-16">BASE BEST SELLERS</p>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+    <div class="flex md:grid md:grid-cols-3 gap-1 md:gap-8 mb-16 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-4 md:pb-0 -mx-6 px-6 md:mx-0 md:px-0 bg-[#F5EFE6]">
 
       <!-- Item 1 – Strawberry Base -->
-      <div class="flex flex-col items-center">
-        <div class="relative mb-6 w-full flex justify-center" style="height:280px;">
+      <div class="flex flex-col items-center flex-shrink-0 w-[55vw] md:w-auto snap-start bg-[#F5EFE6]">
+        <div class="relative mb-6 w-full flex justify-center bg-[#F5EFE6]" style="height:280px;">
           <img src="images/6.png" alt="Strawberry Base" class="h-full w-auto object-contain product-img" />
         </div>
         <h3 class="font-display text-3xl mb-1">STRAWBERRY BASE</h3>
@@ -461,8 +461,8 @@
       </div>
 
       <!-- Item 2 – Iced Matcha Latte -->
-      <div class="flex flex-col items-center">
-        <div class="relative mb-6 w-full flex justify-center" style="height:280px;">
+      <div class="flex flex-col items-center flex-shrink-0 w-[55vw] md:w-auto snap-start bg-[#F5EFE6]">
+        <div class="relative mb-6 w-full flex justify-center bg-[#F5EFE6]" style="height:280px;">
           <img src="images/4.png" alt="Iced Matcha Latte" class="h-full w-auto object-contain product-img" />
         </div>
         <h3 class="font-display text-3xl mb-1">ICED MATCHA LATTE</h3>
@@ -471,8 +471,8 @@
       </div>
 
       <!-- Item 3 – Yogurt Bowl -->
-      <div class="flex flex-col items-center">
-        <div class="relative mb-6 w-full flex justify-center" style="height:280px;">
+      <div class="flex flex-col items-center flex-shrink-0 w-[55vw] md:w-auto snap-start bg-[#F5EFE6]">
+        <div class="relative mb-6 w-full flex justify-center bg-[#F5EFE6]" style="height:280px;">
           <img src="images/3.png" alt="Golden Morning Yogurt Bowl" class="h-full w-auto object-contain product-img" />
         </div>
         <h3 class="font-display text-3xl mb-1">GOLDEN MORNING BOWL</h3>
@@ -482,7 +482,7 @@
 
     </div>
 
-    <a href="#menu" class="btn-pill bg-[#2D6A4F] text-white text-base px-7 py-2.5">START YOUR ORDER</a>
+    <a href="menu.html" class="btn-pill bg-[#2D6A4F] text-white text-base px-7 py-2.5">START YOUR ORDER</a>
 
   </div>
 </section>
@@ -492,7 +492,7 @@
      BUNDLES / LIMITED TIME
 ═══════════════════════════════════════ -->
 <section class="py-24 px-6 bg-[#EDE4D7]">
-  <div class="max-w-6xl mx-auto text-center">
+  <div class="max-w-2xl mx-auto text-center">
 
     <h2 class="font-display text-[clamp(1.8rem,4vw,3rem)] text-[#2D6A4F] leading-none mb-1">HERE TODAY, GONE TOMORROW</h2>
     <p class="font-display text-lg tracking-[0.2em] mb-20">CURRENT BUNDLES</p>
@@ -503,7 +503,7 @@
       <div class="relative bg-white rounded-2xl border-2 border-gray-900 flex flex-col items-center overflow-visible">
         <!-- Starburst badge overlapping top-left corner -->
         <!-- Product image fills the card top -->
-        <div class="w-full flex justify-center pt-5 pb-3 px-4 md:pt-8 md:pb-4 md:px-6 h-[160px] md:h-[260px]">
+        <div class="w-full flex justify-center pt-5 pb-3 px-4 md:pt-8 md:pb-4 md:px-6 h-[220px] md:h-[260px]">
           <img src="images/8.png" alt="Iced Matcha Latte" class="h-full w-auto object-contain product-img" />
         </div>
         <div class="px-3 pb-5 md:px-6 md:pb-8 text-center">
@@ -515,7 +515,7 @@
 
       <!-- Bundle 2 – Smoothie & Brunch -->
       <div class="relative bg-white rounded-2xl border-2 border-gray-900 flex flex-col items-center overflow-visible">
-        <div class="w-full flex justify-center pt-5 pb-3 px-4 md:pt-8 md:pb-4 md:px-6 h-[160px] md:h-[260px]">
+        <div class="w-full flex justify-center pt-5 pb-3 px-4 md:pt-8 md:pb-4 md:px-6 h-[220px] md:h-[260px]">
           <img src="images/7.png" alt="Strawberry Smoothie" class="h-full w-auto object-contain product-img" />
         </div>
         <div class="px-3 pb-5 md:px-6 md:pb-8 text-center">
@@ -527,7 +527,7 @@
 
       <!-- Bundle 3 – Morning Plates BOGO -->
       <div class="relative bg-white rounded-2xl border-2 border-gray-900 flex flex-col items-center overflow-visible">
-        <div class="w-full flex justify-center pt-5 pb-3 px-4 md:pt-8 md:pb-4 md:px-6 h-[160px] md:h-[260px]">
+        <div class="w-full flex justify-center pt-5 pb-3 px-4 md:pt-8 md:pb-4 md:px-6 h-[220px] md:h-[260px]">
           <img src="images/2.png" alt="Avocado Base" class="h-full w-auto object-contain product-img" />
         </div>
         <div class="px-3 pb-5 md:px-6 md:pb-8 text-center">
@@ -720,7 +720,7 @@
             </a>
       <div class="mt-6 flex flex-col gap-3">
         <a id="order" href="#" class="btn-pill bg-[#2D6A4F] text-white text-base px-6 py-2.5 text-center">ORDER ON DELIVEROO</a>
-        <a href="mailto:hello@basewellnesscafe.co.uk" class="btn-pill border border-gray-600 text-gray-400 hover:text-white text-base px-6 py-2.5 text-center transition-colors">GET IN TOUCH</a>
+        <a href="contact.html" class="btn-pill border border-gray-600 text-gray-400 hover:text-white text-base px-6 py-2.5 text-center transition-colors">GET IN TOUCH</a>
       </div>
     </div>
 

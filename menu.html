@@ -20,7 +20,7 @@
     .font-display { font-family: 'Bebas Neue', cursive; }
 
     /* Product image — removes white bg via multiply blend */
-    .product-img { mix-blend-mode: multiply; }
+    .product-img { mix-blend-mode: multiply; transition: opacity 0.15s ease; }
 
     /* Pill button */
     .btn-pill {
@@ -184,6 +184,7 @@
 
       <!-- Strawberry Base -->
       <div class="bg-white rounded-2xl border-2 border-gray-900 flex overflow-hidden relative flex-shrink-0 w-[82vw] max-w-[420px] md:w-auto md:max-w-none snap-center">
+        <span class="offer-badge bg-[#2D6A4F] text-white absolute bottom-3 left-3 z-10">BUY 1 GET 1 FREE</span>
         <div class="w-44 flex-shrink-0 flex items-center justify-center p-4 bg-[#F5EFE6]" style="min-height:200px;">
           <img src="images/6.png" alt="Strawberry Base" class="w-full h-36 object-contain product-img" />
         </div>
@@ -195,15 +196,13 @@
             </div>
             <p class="text-gray-600 text-sm leading-relaxed mb-3">Strawberry, banana, yogurt, vitamin C + collagen + honey</p>
           </div>
-          <div class="flex items-center gap-2 flex-wrap">
-            <span class="offer-badge bg-[#2D6A4F] text-white">BUY 1 GET 1 FREE</span>
-          </div>
         </div>
         <button onclick="addToCart({id:'strawberry-base',name:'STRAWBERRY BASE',price:10,img:'images/6.png'})" class="add-to-cart-btn absolute bottom-3 right-3 w-9 h-9 rounded-full bg-[#2D6A4F] text-white text-xl flex items-center justify-center hover:bg-[#1e4d39] transition-colors">+</button>
       </div>
 
       <!-- Golden Hour -->
       <div class="bg-white rounded-2xl border-2 border-gray-900 flex overflow-hidden relative flex-shrink-0 w-[82vw] max-w-[420px] md:w-auto md:max-w-none snap-center">
+        <span class="offer-badge bg-[#2D6A4F] text-white absolute bottom-3 left-3 z-10">BUY 1 GET 1 FREE</span>
         <div class="w-44 flex-shrink-0 flex items-center justify-center p-4 bg-[#F5EFE6]" style="min-height:200px;">
           <img src="images/7.png" alt="Golden Hour" class="w-full h-36 object-contain product-img" />
         </div>
@@ -214,9 +213,6 @@
               <span class="font-bold text-lg whitespace-nowrap">£10.00</span>
             </div>
             <p class="text-gray-600 text-sm leading-relaxed mb-3">Pineapple, mango, yogurt, vitamin C + collagen, honey</p>
-          </div>
-          <div class="flex items-center gap-2 flex-wrap">
-            <span class="offer-badge bg-[#2D6A4F] text-white">BUY 1 GET 1 FREE</span>
           </div>
         </div>
         <button onclick="addToCart({id:'golden-hour',name:'GOLDEN HOUR',price:10,img:'images/7.png'})" class="add-to-cart-btn absolute bottom-3 right-3 w-9 h-9 rounded-full bg-[#2D6A4F] text-white text-xl flex items-center justify-center hover:bg-[#1e4d39] transition-colors">+</button>
@@ -365,6 +361,7 @@
 
       <!-- Golden Morning Yogurt Bowl -->
       <div class="bg-white rounded-2xl border-2 border-gray-900 flex flex-col overflow-hidden relative flex-shrink-0 w-[280px] md:w-auto snap-center">
+        <span class="offer-badge bg-[#2D6A4F] text-white absolute top-3 right-3 z-10">BUY 1 GET 1 FREE</span>
         <div class="flex items-center justify-center p-6 bg-[#F5EFE6]" style="height:240px;">
           <img src="images/3.png" alt="Golden Morning Yogurt Bowl" class="h-full w-auto object-contain product-img" />
         </div>
@@ -374,12 +371,9 @@
             <span class="font-bold text-lg whitespace-nowrap">£9.00</span>
           </div>
           <p class="text-gray-600 text-sm leading-relaxed mb-3 flex-1">Greek yogurt base layered with granola, fresh fruit and a drizzle of honey</p>
-          <div class="flex flex-wrap items-center gap-2 mt-auto">
-            <div class="flex flex-wrap gap-1">
-              <span class="allergen">Gluten</span>
-              <span class="allergen">Sesame</span>
-            </div>
-            <span class="offer-badge bg-[#2D6A4F] text-white ml-auto">BUY 1 GET 1 FREE</span>
+          <div class="flex flex-wrap gap-1 mt-auto">
+            <span class="allergen">Gluten</span>
+            <span class="allergen">Sesame</span>
           </div>
         </div>
         <button onclick="addToCart({id:'golden-morning-yogurt-bowl',name:'GOLDEN MORNING YOGURT BOWL',price:9,img:'images/3.png'})" class="add-to-cart-btn absolute bottom-3 right-3 w-9 h-9 rounded-full bg-[#2D6A4F] text-white text-xl flex items-center justify-center hover:bg-[#1e4d39] transition-colors">+</button>
@@ -433,8 +427,8 @@
 <!-- ═══════════════════════════════════════
      BUNDLES
 ═══════════════════════════════════════ -->
-<section id="bundles" class="py-20 px-6 bg-[#F5EFE6]">
-  <div class="max-w-6xl mx-auto">
+<section id="bundles" class="py-20 px-12 md:px-6 bg-[#F5EFE6]">
+  <div class="max-w-2xl mx-auto">
 
     <div class="mb-12">
       <h2 class="font-display text-[clamp(1.8rem,4vw,3rem)] text-[#2D6A4F] leading-none mb-1">BUNDLES</h2>
@@ -445,12 +439,11 @@
 
       <!-- Iced Matcha & Breakfast -->
       <div class="relative bg-white rounded-2xl border-2 border-gray-900 overflow-visible">
-        <!-- Starburst -->
-
         <div class="flex flex-col md:flex-row">
-          <!-- Image -->
-          <div class="md:w-56 flex-shrink-0 flex items-center justify-center p-6 bg-[#F5EFE6] rounded-tl-2xl rounded-bl-2xl" style="min-height:220px;">
-            <img src="images/8.png" alt="Iced Matcha & Breakfast" class="h-44 w-auto object-contain product-img" />
+          <!-- Images -->
+          <div class="md:w-56 flex-shrink-0 flex items-center justify-center gap-3 p-4 bg-[#F5EFE6] rounded-t-2xl md:rounded-tr-none md:rounded-tl-2xl md:rounded-bl-2xl" style="min-height:180px;">
+            <img id="b1-drink-img" src="images/8.png" alt="Iced Matcha" class="h-28 w-auto object-contain product-img transition-all duration-300" />
+            <img id="b1-plate-img" src="images/3.png" alt="Plate" class="h-28 w-auto object-contain product-img transition-all duration-300" />
           </div>
           <!-- Details -->
           <div class="p-6 flex flex-col justify-between flex-1">
@@ -463,22 +456,21 @@
                 </div>
               </div>
               <p class="text-gray-600 text-sm leading-relaxed mb-4">Your choice of matcha paired with a fresh brunch plate. Perfect for a nourishing start to the day.</p>
-
               <div class="mb-3">
-                <p class="font-semibold text-xs uppercase tracking-widest text-[#2D6A4F] mb-2">Choose your matcha</p>
-                <ul class="text-sm text-gray-600 space-y-1">
-                  <li>— Iced matcha latte</li>
-                  <li>— Iced vanilla matcha latte</li>
-                  <li>— Banana bread matcha</li>
-                </ul>
+                <label class="font-semibold text-xs uppercase tracking-widest text-[#2D6A4F] mb-2 block">Choose your matcha</label>
+                <select onchange="updatePlateImg('b1-drink-img', this.value)" class="w-full appearance-none bg-[#F5EFE6] text-[#2D6A4F] font-semibold text-sm px-4 py-3 rounded-full shadow-sm border-0 focus:outline-none cursor-pointer pr-10" style="background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%232D6A4F' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:right 14px center;">
+                  <option value="images/8.png">Iced matcha latte</option>
+                  <option value="images/4.png">Iced vanilla matcha latte</option>
+                  <option value="images/4.png">Banana bread matcha</option>
+                </select>
               </div>
               <div>
-                <p class="font-semibold text-xs uppercase tracking-widest text-[#2D6A4F] mb-2">Choose your plate</p>
-                <ul class="text-sm text-gray-600 space-y-1">
-                  <li>— Golden Morning Yogurt Bowl</li>
-                  <li>— Avocado Base</li>
-                  <li>— Smoked Salmon Bagel</li>
-                </ul>
+                <label class="font-semibold text-xs uppercase tracking-widest text-[#2D6A4F] mb-2 block">Choose your plate</label>
+                <select onchange="updatePlateImg('b1-plate-img', this.value)" class="w-full appearance-none bg-[#F5EFE6] text-[#2D6A4F] font-semibold text-sm px-4 py-3 rounded-full shadow-sm border-0 focus:outline-none cursor-pointer pr-10" style="background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%232D6A4F' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:right 14px center;">
+                  <option value="images/3.png">Golden Morning Yogurt Bowl</option>
+                  <option value="images/2.png">Avocado Base</option>
+                  <option value="images/1.png">Smoked Salmon Bagel</option>
+                </select>
               </div>
             </div>
             <a href="#" class="btn-pill bg-[#2D6A4F] text-white text-sm px-5 py-2 mt-4 self-start">ORDER THIS BUNDLE</a>
@@ -488,10 +480,10 @@
 
       <!-- Functional Smoothie & Brunch -->
       <div class="relative bg-white rounded-2xl border-2 border-gray-900 overflow-visible">
-
         <div class="flex flex-col md:flex-row">
-          <div class="md:w-56 flex-shrink-0 flex items-center justify-center p-6 bg-[#F5EFE6] rounded-tl-2xl rounded-bl-2xl" style="min-height:220px;">
-            <img src="images/6.png" alt="Smoothie & Brunch" class="h-44 w-auto object-contain product-img" />
+          <div class="md:w-56 flex-shrink-0 flex items-center justify-center gap-3 p-4 bg-[#F5EFE6] rounded-t-2xl md:rounded-tr-none md:rounded-tl-2xl md:rounded-bl-2xl" style="min-height:180px;">
+            <img id="b2-drink-img" src="images/6.png" alt="Smoothie" class="h-28 w-auto object-contain product-img transition-all duration-300" />
+            <img id="b2-plate-img" src="images/3.png" alt="Plate" class="h-28 w-auto object-contain product-img transition-all duration-300" />
           </div>
           <div class="p-6 flex flex-col justify-between flex-1">
             <div>
@@ -503,21 +495,20 @@
                 </div>
               </div>
               <p class="text-gray-600 text-sm leading-relaxed mb-4">Your choice of functional smoothie paired with your choice of brunch. Buy 2 and the second is free.</p>
-
               <div class="mb-3">
-                <p class="font-semibold text-xs uppercase tracking-widest text-[#2D6A4F] mb-2">Choose your smoothie</p>
-                <ul class="text-sm text-gray-600 space-y-1">
-                  <li>— Strawberry Base</li>
-                  <li>— Golden Hour</li>
-                </ul>
+                <label class="font-semibold text-xs uppercase tracking-widest text-[#2D6A4F] mb-2 block">Choose your smoothie</label>
+                <select onchange="updatePlateImg('b2-drink-img', this.value)" class="w-full appearance-none bg-[#F5EFE6] text-[#2D6A4F] font-semibold text-sm px-4 py-3 rounded-full shadow-sm border-0 focus:outline-none cursor-pointer pr-10" style="background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%232D6A4F' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:right 14px center;">
+                  <option value="images/6.png">Strawberry Base</option>
+                  <option value="images/7.png">Golden Hour</option>
+                </select>
               </div>
               <div>
-                <p class="font-semibold text-xs uppercase tracking-widest text-[#2D6A4F] mb-2">Choose your plate</p>
-                <ul class="text-sm text-gray-600 space-y-1">
-                  <li>— Golden Morning Yogurt Bowl</li>
-                  <li>— Avocado Base</li>
-                  <li>— Smoked Salmon Bagel</li>
-                </ul>
+                <label class="font-semibold text-xs uppercase tracking-widest text-[#2D6A4F] mb-2 block">Choose your plate</label>
+                <select onchange="updatePlateImg('b2-plate-img', this.value)" class="w-full appearance-none bg-[#F5EFE6] text-[#2D6A4F] font-semibold text-sm px-4 py-3 rounded-full shadow-sm border-0 focus:outline-none cursor-pointer pr-10" style="background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%232D6A4F' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:right 14px center;">
+                  <option value="images/3.png">Golden Morning Yogurt Bowl</option>
+                  <option value="images/2.png">Avocado Base</option>
+                  <option value="images/1.png">Smoked Salmon Bagel</option>
+                </select>
               </div>
             </div>
             <a href="#" class="btn-pill bg-[#2D6A4F] text-white text-sm px-5 py-2 mt-4 self-start">ORDER THIS BUNDLE</a>
@@ -679,6 +670,12 @@
     </div>
   </div>
 </div>
+<script>
+  function updatePlateImg(imgId, src) {
+    const img = document.getElementById(imgId);
+    if (img) { img.style.opacity = '0'; setTimeout(() => { img.src = src; img.style.opacity = '1'; }, 150); }
+  }
+</script>
 <script>
   /* Bottom sheet — depends on getCart/saveCart/updateBadge already defined above */
   const BOGO_SMOOTHIES_S = new Set(['strawberry-base','golden-hour']);
